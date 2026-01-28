@@ -1,0 +1,36 @@
+{
+  "name": "@csc3213-2026-group-temp/academic-department-domain-model",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "3.8.1",
+    "typescript": "^5.9.3"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "endOfLine": "auto"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}
