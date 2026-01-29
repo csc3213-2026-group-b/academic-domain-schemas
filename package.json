@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@csc3213-2026-group-temp/academic-domain-schemas",
+  "name": "@csc3213-2026-group-b/academic-domain-schemas",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
