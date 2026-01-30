@@ -41,4 +41,5 @@ Please follow these guidelines:
 2. Make your changes and ensure that they adhere to the project's coding standards.
 3. Submit a pull request with a clear description of your changes.
 4. Participate in the code review process and make any requested changes.
+
 By following these guidelines, you help maintain the quality and integrity of the project. Thank you for your contributions!
