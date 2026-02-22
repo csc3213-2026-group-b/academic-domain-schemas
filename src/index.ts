@@ -19,3 +19,9 @@ export * from './schemas/course-staff.schema';
 export * from './schemas/course-offering.schema';
 export * from './schemas/academic-program.schema';
 export * from './schemas/student.schema';
+
+// objects
+export * from './schemas/objects/academic/confrence.schema';
+export * from './schemas/objects/academic/research-publication.schema';
+export * from './schemas/objects/academic/research.schema';
+export * from './schemas/objects/academic/social-links.schema';
