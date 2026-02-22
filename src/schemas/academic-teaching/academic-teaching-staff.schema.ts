@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { PersonSchema } from '../person.schema';
 import { AcademicRankSchema } from './academic-rank.schema';
-import { CourseSchema } from '../course.schema';
 import { PublicationSchema } from '../objects/academic/research-publication.schema';
 import { ConfrenceSchema } from '../objects/academic/confrence.schema';
 import { ResearchSchema } from '../objects/academic/research.schema';

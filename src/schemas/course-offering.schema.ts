@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { CourseSchema } from './course.schema';
 import { CourseStaffSchema } from './course-staff.schema';
 import { AcademicPeriodSchema } from './academic-period.schema';
 import { CourseCodeSchema } from './objects/course/course-code.schema';

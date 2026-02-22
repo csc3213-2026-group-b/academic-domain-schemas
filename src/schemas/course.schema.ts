@@ -3,6 +3,7 @@ import { CourseCodeSchema } from './objects/course/course-code.schema';
 
 export const CourseSchema = z.object({
   code: CourseCodeSchema,
+  alternativeCode: CourseCodeSchema.optional(),
   title: z.string(),
   credits: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(6)]),
 });
