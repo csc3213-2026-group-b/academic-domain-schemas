@@ -5,6 +5,7 @@ import { AcademicPeriodSchema } from './academic-period.schema';
 
 export const CourseOfferingSchema = z.object({
   course: CourseSchema,
+  year: z.number().int().positive(),
   period: AcademicPeriodSchema,
   staff: z.array(CourseStaffSchema),
 });
