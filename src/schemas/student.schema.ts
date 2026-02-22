@@ -2,9 +2,10 @@ import { z } from 'zod';
 import { PersonSchema } from './person.schema';
 import { PublicationSchema } from './objects/academic/research-publication.schema';
 import { SocialLinksSchema } from './objects/academic/social-links.schema';
+import { SNumberSchema } from './objects/student/s-number.schema';
 
 export const StudentSchema = PersonSchema.extend({
-  registrationNo: z.string(),
+  registrationNo: SNumberSchema,
   level: z.enum(['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMINI']),
   personalEmail: z.email().optional(),
   research_interests: z.array(z.string()).optional(),

@@ -1,11 +1,11 @@
-import { url, z } from 'zod';
+import { z } from 'zod';
 import { PersonSchema } from '../person.schema';
 import { AcademicRankSchema } from './academic-rank.schema';
-import { CourseSchema } from '../course.schema';
 import { PublicationSchema } from '../objects/academic/research-publication.schema';
 import { ConfrenceSchema } from '../objects/academic/confrence.schema';
 import { ResearchSchema } from '../objects/academic/research.schema';
 import { SocialLinksSchema } from '../objects/academic/social-links.schema';
+import { CourseCodeSchema } from '../objects/course/course-code.schema';
 
 export const AcademicTeachingStaffSchema = PersonSchema.extend({
   staffType: z.literal('ACADEMIC_TEACHING'),
@@ -56,7 +56,7 @@ export const AcademicTeachingStaffSchema = PersonSchema.extend({
   publications: z.array(PublicationSchema).optional(),
   key_publications: z.array(PublicationSchema).optional(),
   conferences_attended: z.array(ConfrenceSchema).optional(),
-  teachings: z.array(z.object(CourseSchema)).optional(),
+  teachings: z.array(CourseCodeSchema).optional(),
   cv_url: z.url().optional(),
   socialLinks: SocialLinksSchema.optional(),
 });
