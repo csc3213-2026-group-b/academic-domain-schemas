@@ -21,7 +21,14 @@ export * from './schemas/academic-program.schema';
 export * from './schemas/student.schema';
 
 // objects
+export * from './schemas/objects/academic/academic-username.schema';
 export * from './schemas/objects/academic/confrence.schema';
 export * from './schemas/objects/academic/research-publication.schema';
 export * from './schemas/objects/academic/research.schema';
 export * from './schemas/objects/academic/social-links.schema';
+
+export * from './schemas/objects/course/course-code.schema';
+
+export * from './schemas/objects/project/project.schema';
+
+export * from './schemas/objects/student/s-number.schema';
