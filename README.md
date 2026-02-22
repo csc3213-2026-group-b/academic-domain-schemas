@@ -9,29 +9,29 @@ This repository provides JSON schemas that can be used to validate data structur
 1. Create a file named `.npmrc` in the root directory of your project.
 2. Add the following line to the `.npmrc` file to configure the npm registry:
 
-    ```bash
-    //npm.pkg.github.com/:_authToken=TOKEN
-    @academic-domain-schemas:registry=https://npm.pkg.github.com
-    ```
+   ```bash
+   //npm.pkg.github.com/:_authToken=TOKEN
+   @academic-domain-schemas:registry=https://npm.pkg.github.com
+   ```
 
-    - Replace `TOKEN` with your GitHub Personal Access Token (PAT) that has the necessary permissions to access the package.
-    - Note: Ensure that your PAT has at least the `read:packages` scope.
-    - For more information on creating a PAT, refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
+   - Replace `TOKEN` with your GitHub Personal Access Token (PAT) that has the necessary permissions to access the package.
+   - Note: Ensure that your PAT has at least the `read:packages` scope.
+   - For more information on creating a PAT, refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
 3. Install the package using npm:
 
-    ```bash
-    // Using npm:
-    npm install @csc3213-2026-group-b/academic-domain-schemas@latest
-    // or using bun:
-    bun install @csc3213-2026-group-b/academic-domain-schemas@latest
-    ```
+   ```bash
+   // Using npm:
+   npm install @csc3213-2026-group-b/academic-domain-schemas@latest
+   // or using bun:
+   bun install @csc3213-2026-group-b/academic-domain-schemas@latest
+   ```
 
 4. Import and use the schemas in your project as needed.
 
-    ```javascript
-    import { YourSchema } from '@csc3213-2026-group-b/academic-domain-schemas';
-    ```
+   ```javascript
+   import { YourSchema } from '@csc3213-2026-group-b/academic-domain-schemas';
+   ```
 
 ## Contribution Guidelines
 
