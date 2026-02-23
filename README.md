@@ -33,6 +33,8 @@ This repository provides JSON schemas that can be used to validate data structur
    import { YourSchema } from '@csc3213-2026-group-b/academic-domain-schemas';
    ```
 
+      > NOTE: Do not import the schemas from subdirectories within the package, as the destination paths may change in the future. Always import directly from the package root to ensure compatibility with future updates.
+
 ## Contribution Guidelines
 
 Please follow these guidelines:
