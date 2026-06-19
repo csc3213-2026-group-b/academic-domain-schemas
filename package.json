@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@csc3213-2026-group-b/academic-domain-schemas",
-  "version": "0.1.72",
+  "version": "0.1.2",
   "description": "Zod schemas for the SCS PDN",
   "license": "AGPL-3.0",
   "repository": {
