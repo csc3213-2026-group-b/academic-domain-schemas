@@ -39,7 +39,7 @@
     "zod": "^4.4.3"
   },
   "lint-staged": {
-    ".*": "prettier --write"
+    "*.{ts,json,md,yml}": "prettier --write"
   },
   "prettier": {
     "printWidth": 80,
