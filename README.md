@@ -1,10 +1,10 @@
-# Welcome to the Academic Domain Schemas Repository
+# Welcome to the Academic Domain Schemas Package
 
-This repository contains shared TypeScript domain schemas and Zod validation models for a single academic department system, covering staff, academic programs, courses, students, and year-dependent relationships.
+This package contains shared TypeScript domain schemas and Zod validation models for a single academic department system, covering staff, academic programs, courses, students, and year-dependent relationships.
 
 ## Usage
 
-This repository provides JSON schemas that can be used to validate data structures related to the academic domain. To use these schemas, follow these steps:
+This package provides JSON schemas that can be used to validate data structures related to the academic domain. To use these schemas, follow these steps:
 
 1. Install the package using npm:
 
@@ -27,7 +27,7 @@ This repository provides JSON schemas that can be used to validate data structur
 
 Please follow these guidelines:
 
-1. Fork the repository and create a new branch for your feature or bug fix.
+1. Fork the package and create a new branch for your feature or bug fix.
 2. Make your changes and ensure that they adhere to the project's coding standards.
 3. Submit a pull request with a clear description of your changes.
 4. Participate in the code review process and make any requested changes.
