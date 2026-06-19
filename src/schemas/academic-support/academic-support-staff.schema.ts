@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { PersonSchema } from '../person.schema';
-import { AcademicSupportPositionSchema } from './academic-support-position.schema';
+import { PersonSchema } from '../person.schema.js';
+import { AcademicSupportPositionSchema } from './academic-support-position.schema.js';
 
 export const AcademicSupportStaffSchema = PersonSchema.extend({
   staffType: z.literal('ACADEMIC_SUPPORT'),

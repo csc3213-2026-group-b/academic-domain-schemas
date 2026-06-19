@@ -6,19 +6,7 @@ This repository contains shared TypeScript domain schemas and Zod validation mod
 
 This repository provides JSON schemas that can be used to validate data structures related to the academic domain. To use these schemas, follow these steps:
 
-1. Create a file named `.npmrc` in the root directory of your project.
-2. Add the following line to the `.npmrc` file to configure the npm registry:
-
-   ```bash
-   //npm.pkg.github.com/:_authToken=TOKEN
-   @academic-domain-schemas:registry=https://npm.pkg.github.com
-   ```
-
-   - Replace `TOKEN` with your GitHub Personal Access Token (PAT) that has the necessary permissions to access the package.
-   - Note: Ensure that your PAT has at least the `read:packages` scope.
-   - For more information on creating a PAT, refer to the [GitHub documentation](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
-
-3. Install the package using npm:
+1. Install the package using npm:
 
    ```bash
    // Using npm:
@@ -27,13 +15,13 @@ This repository provides JSON schemas that can be used to validate data structur
    bun install @csc3213-2026-group-b/academic-domain-schemas@latest
    ```
 
-4. Import and use the schemas in your project as needed.
+2. Import and use the schemas in your project as needed.
 
    ```javascript
    import { YourSchema } from '@csc3213-2026-group-b/academic-domain-schemas';
    ```
 
-      > NOTE: Do not import the schemas from subdirectories within the package, as the destination paths may change in the future. Always import directly from the package root to ensure compatibility with future updates.
+   > NOTE: Do not import the schemas from subdirectories within the package, as the destination paths may change in the future. Always import directly from the package root to ensure compatibility with future updates.
 
 ## Contribution Guidelines
 

@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { CourseCodeSchema } from '../course/course-code.schema';
-import { SNumberSchema } from '../student/s-number.schema';
-import { AcademicUsernameSchema } from '../academic/academic-username.schema';
+import { CourseCodeSchema } from '../course/course-code.schema.js';
+import { SNumberSchema } from '../student/s-number.schema.js';
+import { AcademicUsernameSchema } from '../academic/academic-username.schema.js';
 
 export const BaseProjectSchema = z.object({
   title: z.string(),

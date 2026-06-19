@@ -1,0 +1,4 @@
+{
+  "$schema": "https://www.unpkg.com/knip/schema.json",
+  "tags": ["-lintignore"]
+}

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AcademicUsernameSchema } from './objects/academic/academic-username.schema';
+import { AcademicUsernameSchema } from './objects/academic/academic-username.schema.js';
 
 export const CourseStaffSchema = z.object({
   staff: AcademicUsernameSchema,

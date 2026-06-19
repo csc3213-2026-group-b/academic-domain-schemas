@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { PersonSchema } from './person.schema';
-import { PublicationSchema } from './objects/academic/research-publication.schema';
-import { SocialLinksSchema } from './objects/academic/social-links.schema';
-import { SNumberSchema } from './objects/student/s-number.schema';
+import { PersonSchema } from './person.schema.js';
+import { PublicationSchema } from './objects/academic/research-publication.schema.js';
+import { SocialLinksSchema } from './objects/academic/social-links.schema.js';
+import { SNumberSchema } from './objects/student/s-number.schema.js';
 
 export const StudentSchema = PersonSchema.extend({
   registrationNo: SNumberSchema,
