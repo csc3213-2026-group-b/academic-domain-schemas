@@ -16,7 +16,12 @@ jobs:
         with:
           node-version: 24
           registry-url: https://npm.pkg.github.com/
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - name: Install dependencies
-        run: npm install
+        run: bun install --frozen-lockfile
+      - name: Build package
+        run: bun run build
       - name: Publish package
         run: npm publish
