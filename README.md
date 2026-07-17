@@ -11,8 +11,15 @@ This package provides Zod schemas that can be used to validate data structures r
    ```bash
    # Using npm:
    npm install @csc3213-2026-group-b/academic-domain-schemas@latest
+
    # or using bun:
    bun add @csc3213-2026-group-b/academic-domain-schemas@latest
+
+   # or using yarn:
+   yarn add @csc3213-2026-group-b/academic-domain-schemas@latest
+
+   # or using pnpm:
+   pnpm add @csc3213-2026-group-b/academic-domain-schemas
    ```
 
 2. Import and use the schemas in your project as needed.
