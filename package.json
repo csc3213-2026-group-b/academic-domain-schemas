@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/csc3213-2026-group-b/academic-domain-schemas"
+    "url": "git+https://github.com/csc3213-2026-group-b/academic-domain-schemas.git"
   },
   "type": "module",
   "module": "./dist/index.js",
