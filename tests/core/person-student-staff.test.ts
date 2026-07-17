@@ -118,7 +118,7 @@ describe('StudentSchema', () => {
   });
 
   it('accepts all valid level enum values', () => {
-    const levels = ['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMINI'] as const;
+    const levels = ['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMNI'] as const;
     for (const level of levels) {
       expect(() =>
         StudentSchema.parse({ ...validStudent, level })

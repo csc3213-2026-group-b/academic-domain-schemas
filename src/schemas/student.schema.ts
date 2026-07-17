@@ -6,7 +6,7 @@ import { SNumberSchema } from './objects/student/s-number.schema.js';
 
 export const StudentSchema = PersonSchema.extend({
   registrationNo: SNumberSchema,
-  level: z.enum(['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMINI']),
+  level: z.enum(['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMNI']),
   personalEmail: z.email().optional(),
   research_interests: z.array(z.string()).optional(),
   publications: z.array(PublicationSchema).optional(),
