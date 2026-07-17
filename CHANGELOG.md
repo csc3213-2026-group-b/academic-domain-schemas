@@ -5,9 +5,3 @@
 ### Major Changes
 
 - 4c45ed0: Ready to production
-
-## 1.0.0
-
-### Major Changes
-
-- 980d8e7:
