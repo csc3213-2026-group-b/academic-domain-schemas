@@ -31,6 +31,7 @@
     "clean": "rimraf dist",
     "test": "bun test",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "knip": "knip",
     "knip:depcheck": "knip --dependencies",
     "knip:fix": "knip --fix",
