@@ -8,8 +8,8 @@ export const PublicationSchema = z.object({
   description: z.string().optional(),
   doi: z
     .object({
-      doi_id: z.string().optional(),
-      doi_url: z.url().optional(),
+      doiId: z.string().optional(),
+      doiUrl: z.url().optional(),
     })
     .optional(),
   url: z.url().optional(),

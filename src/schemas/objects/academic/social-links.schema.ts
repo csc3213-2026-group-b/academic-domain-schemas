@@ -1,22 +1,22 @@
 import { z } from 'zod';
 
 export const SocialLinksSchema = z.object({
-  usernames: z.array(
-    z.object({
-      linkedin: z.string().optional(),
-      github: z.string().optional(),
-      mastodon: z.string().optional(),
-      bluesky: z.string().optional(),
-      x: z.string().optional(),
-      facebook: z.string().optional(),
-      instagram: z.string().optional(),
-      youtube: z.string().optional(),
+  usernames: z
+    .object({
+      linkedin: z.string().trim().min(1).optional(),
+      github: z.string().trim().min(1).optional(),
+      mastodon: z.string().trim().min(1).optional(),
+      bluesky: z.string().trim().min(1).optional(),
+      x: z.string().trim().min(1).optional(),
+      facebook: z.string().trim().min(1).optional(),
+      instagram: z.string().trim().min(1).optional(),
+      youtube: z.string().trim().min(1).optional(),
     })
-  ),
+    .optional(),
   otherPlatforms: z
     .array(
       z.object({
-        platformName: z.string(),
+        platformName: z.string().trim().min(1),
         url: z.url(),
         icon: z.url().optional(),
       })

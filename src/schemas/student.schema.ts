@@ -8,7 +8,7 @@ export const StudentSchema = PersonSchema.extend({
   registrationNo: SNumberSchema,
   level: z.enum(['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMNI']),
   personalEmail: z.email().optional(),
-  research_interests: z.array(z.string()).optional(),
+  researchInterests: z.array(z.string()).optional(),
   publications: z.array(PublicationSchema).optional(),
   positions: z
     .array(

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const ConfrenceSchema = z.object({
+export const ConferenceSchema = z.object({
   name: z.string(),
   date: z.string(),
   location: z.string().optional(),
@@ -8,4 +8,4 @@ export const ConfrenceSchema = z.object({
   icon: z.url().optional(),
 });
 
-export type Confrence = z.infer<typeof ConfrenceSchema>;
+export type Conference = z.infer<typeof ConferenceSchema>;

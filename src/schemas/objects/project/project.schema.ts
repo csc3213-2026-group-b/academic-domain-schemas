@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { CourseCodeSchema } from '../course/course-code.schema.js';
 import { SNumberSchema } from '../student/s-number.schema.js';
 import { AcademicUsernameSchema } from '../academic/academic-username.schema.js';
+import { AcademicYearSchema } from '../academic/academic-year.schema.js';
 
 export const BaseProjectSchema = z.object({
   title: z.string(),
@@ -10,7 +11,7 @@ export const BaseProjectSchema = z.object({
   endDate: z.string().optional(),
   status: z.enum(['PLANNED', 'ACTIVE', 'COMPLETED', 'ARCHIVED']),
   course: CourseCodeSchema,
-  academicYear: z.number().int().positive(),
+  academicYear: AcademicYearSchema,
   supervisors: z.array(AcademicUsernameSchema),
   instructors: z.array(AcademicUsernameSchema).optional(),
   icon: z.url().optional(),
@@ -22,14 +23,14 @@ export const BaseProjectSchema = z.object({
 
 const IndividualProjectSchema = BaseProjectSchema.extend({
   projectType: z.literal('INDIVIDUAL'),
-  student_id: SNumberSchema, // single
+  studentId: SNumberSchema, // single
 });
 
 export type IndividualProject = z.infer<typeof IndividualProjectSchema>;
 
 const GroupProjectSchema = BaseProjectSchema.extend({
   projectType: z.literal('GROUP'),
-  student_ids: z.array(SNumberSchema).min(2), // enforce minimum 2
+  studentIds: z.array(SNumberSchema).min(2), // enforce minimum 2
 });
 
 export type GroupProject = z.infer<typeof GroupProjectSchema>;

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { PersonSchema } from '../person.schema.js';
 import { AcademicRankSchema } from './academic-rank.schema.js';
 import { PublicationSchema } from '../objects/academic/research-publication.schema.js';
-import { ConfrenceSchema } from '../objects/academic/confrence.schema.js';
+import { ConferenceSchema } from '../objects/academic/conference.schema.js';
 import { ResearchSchema } from '../objects/academic/research.schema.js';
 import { SocialLinksSchema } from '../objects/academic/social-links.schema.js';
 import { CourseCodeSchema } from '../objects/course/course-code.schema.js';
@@ -23,7 +23,7 @@ export const AcademicTeachingStaffSchema = PersonSchema.extend({
     .optional(),
   officePhone: z.string().optional(),
   officeLocation: z.string().optional(),
-  positions_held: z
+  positionsHeld: z
     .array(
       z.object({
         name: z.string(),
@@ -44,20 +44,20 @@ export const AcademicTeachingStaffSchema = PersonSchema.extend({
     )
     .optional(),
   website: z.url().optional(),
-  research_interests: z
+  researchInterests: z
     .array(
       z.object({
-        primary_focus: z.array(z.string()).optional(),
-        other_interests: z.array(z.string()).optional(),
+        primaryFocus: z.array(z.string()).optional(),
+        otherInterests: z.array(z.string()).optional(),
       })
     )
     .optional(),
-  research_ongoing: z.array(ResearchSchema).optional(),
+  researchOngoing: z.array(ResearchSchema).optional(),
   publications: z.array(PublicationSchema).optional(),
-  key_publications: z.array(PublicationSchema).optional(),
-  conferences_attended: z.array(ConfrenceSchema).optional(),
+  keyPublications: z.array(PublicationSchema).optional(),
+  conferencesAttended: z.array(ConferenceSchema).optional(),
   teachings: z.array(CourseCodeSchema).optional(),
-  cv_url: z.url().optional(),
+  cvUrl: z.url().optional(),
   socialLinks: SocialLinksSchema.optional(),
 });
 

@@ -5,7 +5,6 @@ import { CourseCodeSchema } from './objects/course/course-code.schema.js';
 
 export const CourseOfferingSchema = z.object({
   course: CourseCodeSchema,
-  year: z.number().int().positive(),
   period: AcademicPeriodSchema,
   staff: z.array(CourseStaffSchema),
 });

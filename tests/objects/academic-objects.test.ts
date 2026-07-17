@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'bun:test';
 import { AcademicUsernameSchema } from '../../src/schemas/objects/academic/academic-username.schema.js';
-import { ConfrenceSchema } from '../../src/schemas/objects/academic/confrence.schema.js';
+import { ConferenceSchema } from '../../src/schemas/objects/academic/conference.schema.js';
 import { PublicationSchema } from '../../src/schemas/objects/academic/research-publication.schema.js';
 import { ResearchSchema } from '../../src/schemas/objects/academic/research.schema.js';
 import { SocialLinksSchema } from '../../src/schemas/objects/academic/social-links.schema.js';
@@ -41,9 +41,9 @@ describe('AcademicUsernameSchema', () => {
 
 // ─── Conference ────────────────────────────────────────────────────
 
-describe('ConfrenceSchema', () => {
+describe('ConferenceSchema', () => {
   it('accepts a valid conference with required fields', () => {
-    const conf = ConfrenceSchema.parse({
+    const conf = ConferenceSchema.parse({
       name: 'IEEE ICSE 2025',
       date: '2025-05-15',
     });
@@ -52,7 +52,7 @@ describe('ConfrenceSchema', () => {
 
   it('accepts a conference with all optional fields', () => {
     expect(() =>
-      ConfrenceSchema.parse({
+      ConferenceSchema.parse({
         name: 'ACM SIGGRAPH',
         date: '2025-08-10',
         location: 'Los Angeles, CA',
@@ -63,7 +63,7 @@ describe('ConfrenceSchema', () => {
   });
 
   it('rejects a conference missing the name', () => {
-    expect(() => ConfrenceSchema.parse({ date: '2025-05-15' })).toThrow();
+    expect(() => ConferenceSchema.parse({ date: '2025-05-15' })).toThrow();
   });
 });
 
@@ -85,8 +85,8 @@ describe('PublicationSchema', () => {
         coAuthors: ['Jane Smith', 'Bob Lee'],
         description: 'A comprehensive survey',
         doi: {
-          doi_id: '10.1234/example',
-          doi_url: 'https://doi.org/10.1234/example',
+          doiId: '10.1234/example',
+          doiUrl: 'https://doi.org/10.1234/example',
         },
         url: 'https://example.com/paper',
         icon: 'https://example.com/icon.png',
@@ -98,7 +98,7 @@ describe('PublicationSchema', () => {
     expect(() =>
       PublicationSchema.parse({
         title: 'Test',
-        doi: { doi_url: 'not-a-url' },
+        doi: { doiUrl: 'not-a-url' },
       })
     ).toThrow();
   });

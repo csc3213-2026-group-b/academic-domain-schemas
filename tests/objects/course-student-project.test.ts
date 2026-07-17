@@ -79,24 +79,24 @@ describe('ProjectSchema (Individual)', () => {
     const proj = ProjectSchema.parse({
       ...base,
       projectType: 'INDIVIDUAL',
-      student_id: 'S22SP123',
+      studentId: 'S22SP123',
     }) as IndividualProject;
     expect(proj.projectType).toBe('INDIVIDUAL');
-    expect(proj.student_id).toBe('S22SP123');
+    expect(proj.studentId).toBe('S22SP123');
   });
 
-  it('rejects an individual project without student_id', () => {
+  it('rejects an individual project without studentId', () => {
     expect(() =>
       ProjectSchema.parse({ ...base, projectType: 'INDIVIDUAL' })
     ).toThrow();
   });
 
-  it('rejects an individual project with student_ids (array)', () => {
+  it('rejects an individual project with studentIds (array)', () => {
     expect(() =>
       ProjectSchema.parse({
         ...base,
         projectType: 'INDIVIDUAL',
-        student_ids: ['S22SP123', 'S22SP456'],
+        studentIds: ['S22SP123', 'S22SP456'],
       })
     ).toThrow();
   });
@@ -107,10 +107,10 @@ describe('ProjectSchema (Group)', () => {
     const proj = ProjectSchema.parse({
       ...base,
       projectType: 'GROUP',
-      student_ids: ['S22SP123', 'S22SP456'],
+      studentIds: ['S22SP123', 'S22SP456'],
     }) as GroupProject;
     expect(proj.projectType).toBe('GROUP');
-    expect(proj.student_ids.length).toBe(2);
+    expect(proj.studentIds.length).toBe(2);
   });
 
   it('rejects a group project with only one student', () => {
@@ -118,7 +118,7 @@ describe('ProjectSchema (Group)', () => {
       ProjectSchema.parse({
         ...base,
         projectType: 'GROUP',
-        student_ids: ['S22SP123'],
+        studentIds: ['S22SP123'],
       })
     ).toThrow();
   });
@@ -139,7 +139,7 @@ describe('ProjectSchema (shared)', () => {
       ProjectSchema.parse({
         ...base,
         projectType: 'INDIVIDUAL',
-        student_id: 'S22SP123',
+        studentId: 'S22SP123',
         title: undefined,
       })
     ).toThrow();
@@ -150,7 +150,7 @@ describe('ProjectSchema (shared)', () => {
       ProjectSchema.parse({
         ...base,
         projectType: 'INDIVIDUAL',
-        student_id: 'S22SP123',
+        studentId: 'S22SP123',
         description: 'A great project',
         endDate: '2026-06-01',
         instructors: ['asmith'],
@@ -168,7 +168,7 @@ describe('ProjectSchema (shared)', () => {
       ProjectSchema.parse({
         ...base,
         projectType: 'INDIVIDUAL',
-        student_id: 'S22SP123',
+        studentId: 'S22SP123',
         status: 'UNKNOWN',
       })
     ).toThrow();

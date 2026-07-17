@@ -10,3 +10,5 @@ export const CourseStaffSchema = z.object({
     'TEACHING_ASSISTANT',
   ]),
 });
+
+export type CourseStaff = z.infer<typeof CourseStaffSchema>;

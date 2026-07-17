@@ -64,21 +64,21 @@ describe('AcademicTeachingStaffSchema', () => {
         ],
         officePhone: '+94123456789',
         officeLocation: 'Room 301',
-        positions_held: [{ name: 'Dean', startDate: '2022-01-01' }],
+        positionsHeld: [{ name: 'Dean', startDate: '2022-01-01' }],
         awards: [{ name: 'Best Researcher', date: '2023' }],
         website: 'https://alice.example.com',
-        research_interests: [
+        researchInterests: [
           {
-            primary_focus: ['AI', 'ML'],
-            other_interests: ['HCI'],
+            primaryFocus: ['AI', 'ML'],
+            otherInterests: ['HCI'],
           },
         ],
-        research_ongoing: [{ title: 'AI Ethics', startDate: '2025-01-01' }],
+        researchOngoing: [{ title: 'AI Ethics', startDate: '2025-01-01' }],
         publications: [{ title: 'A Groundbreaking Paper' }],
-        key_publications: [{ title: 'Key Paper' }],
+        keyPublications: [{ title: 'Key Paper' }],
         conferences_attended: [{ name: 'ICSE', date: '2025-05-15' }],
         teachings: ['CSC3213'],
-        cv_url: 'https://alice.example.com/cv.pdf',
+        cvUrl: 'https://alice.example.com/cv.pdf',
         profileImageUrl: 'https://example.com/alice.jpg',
         mobilePhone: '+94123456789',
       })

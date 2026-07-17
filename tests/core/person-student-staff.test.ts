@@ -84,7 +84,7 @@ describe('StudentSchema', () => {
         personalEmail: 'personal@example.com',
         profileImageUrl: 'https://example.com/img.jpg',
         mobilePhone: '+94123456789',
-        research_interests: ['AI', 'ML'],
+        researchInterests: ['AI', 'ML'],
         publications: [{ title: 'My Paper' }],
         positions: [
           {
