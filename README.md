@@ -4,7 +4,7 @@ This package contains shared TypeScript domain schemas and Zod validation models
 
 ## Usage
 
-This package provides JSON schemas that can be used to validate data structures related to the academic domain. To use these schemas, follow these steps:
+This package provides Zod schemas that can be used to validate data structures related to the academic domain. To use these schemas, follow these steps:
 
 1. Install the package using npm:
 
@@ -12,7 +12,7 @@ This package provides JSON schemas that can be used to validate data structures 
    // Using npm:
    npm install @csc3213-2026-group-b/academic-domain-schemas@latest
    // or using bun:
-   bun install @csc3213-2026-group-b/academic-domain-schemas@latest
+   bun add @csc3213-2026-group-b/academic-domain-schemas@latest
    ```
 
 2. Import and use the schemas in your project as needed.

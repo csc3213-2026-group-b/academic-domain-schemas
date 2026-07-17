@@ -140,28 +140,25 @@ describe('ResearchSchema', () => {
 // ─── Social Links ──────────────────────────────────────────────────
 
 describe('SocialLinksSchema', () => {
-  it('accepts an empty usernames array', () => {
-    expect(() => SocialLinksSchema.parse({ usernames: [] })).not.toThrow();
+  it('accepts an empty social-links object', () => {
+    expect(() => SocialLinksSchema.parse({})).not.toThrow();
   });
 
-  it('accepts social links with multiple platforms', () => {
+  it('accepts usernames for multiple platforms', () => {
     expect(() =>
       SocialLinksSchema.parse({
-        usernames: [
-          {
-            linkedin: 'johndoe',
-            github: 'johndoe',
-            x: '@johndoe',
-          },
-        ],
+        usernames: {
+          linkedin: 'johndoe',
+          github: 'johndoe',
+          x: '@johndoe',
+        },
       })
     ).not.toThrow();
   });
 
-  it('accepts social links with otherPlatforms', () => {
+  it('accepts other platforms', () => {
     expect(() =>
       SocialLinksSchema.parse({
-        usernames: [{}],
         otherPlatforms: [
           {
             platformName: 'ResearchGate',
@@ -172,16 +169,29 @@ describe('SocialLinksSchema', () => {
     ).not.toThrow();
   });
 
-  it('rejects otherPlatforms with an invalid url', () => {
+  it('rejects an empty platform name', () => {
     expect(() =>
       SocialLinksSchema.parse({
-        usernames: [{}],
-        otherPlatforms: [{ platformName: 'Bad', url: 'not-an-url' }],
+        otherPlatforms: [
+          {
+            platformName: ' ',
+            url: 'https://example.com',
+          },
+        ],
       })
     ).toThrow();
   });
 
-  it('rejects missing usernames', () => {
-    expect(() => SocialLinksSchema.parse({})).toThrow();
+  it('rejects an invalid platform URL', () => {
+    expect(() =>
+      SocialLinksSchema.parse({
+        otherPlatforms: [
+          {
+            platformName: 'Example',
+            url: 'not-a-url',
+          },
+        ],
+      })
+    ).toThrow();
   });
 });

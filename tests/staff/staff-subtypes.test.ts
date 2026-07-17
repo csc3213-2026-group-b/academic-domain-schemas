@@ -76,7 +76,7 @@ describe('AcademicTeachingStaffSchema', () => {
         researchOngoing: [{ title: 'AI Ethics', startDate: '2025-01-01' }],
         publications: [{ title: 'A Groundbreaking Paper' }],
         keyPublications: [{ title: 'Key Paper' }],
-        conferences_attended: [{ name: 'ICSE', date: '2025-05-15' }],
+        conferencesAttended: [{ name: 'ICSE', date: '2025-05-15' }],
         teachings: ['CSC3213'],
         cvUrl: 'https://alice.example.com/cv.pdf',
         profileImageUrl: 'https://example.com/alice.jpg',

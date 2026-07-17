@@ -22,6 +22,7 @@ export * from './schemas/student.schema.js';
 
 // objects
 export * from './schemas/objects/academic/academic-username.schema.js';
+export * from './schemas/objects/academic/academic-year.schema.js';
 export * from './schemas/objects/academic/conference.schema.js';
 export * from './schemas/objects/academic/research-publication.schema.js';
 export * from './schemas/objects/academic/research.schema.js';

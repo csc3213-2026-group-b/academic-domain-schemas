@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { AcademicYearSchema } from './objects/academic/academic-year.schema.js';
 
 export const AcademicPeriodSchema = z.object({
-  year: z.number().int(),
+  year: AcademicYearSchema,
   semester: z.enum(['SEM1', 'SEM2']),
 });
 

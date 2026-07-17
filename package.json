@@ -13,10 +13,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -33,7 +35,7 @@
     "knip:depcheck": "knip --dependencies",
     "knip:fix": "knip --fix",
     "lint-staged": "lint-staged",
-    "prepare": "husky || true",
+    "prepare": "husky",
     "prepublishOnly": "bun run build"
   },
   "dependencies": {

@@ -127,12 +127,6 @@ describe('AcademicPeriodSchema', () => {
   it('rejects missing year', () => {
     expect(() => AcademicPeriodSchema.parse({ semester: 'SEM1' })).toThrow();
   });
-
-  it('accepts zero and negative years (flexible validation)', () => {
-    expect(() =>
-      AcademicPeriodSchema.parse({ year: 0, semester: 'SEM1' })
-    ).not.toThrow();
-  });
 });
 
 // ─── Course Offering ───────────────────────────────────────────────
@@ -140,7 +134,6 @@ describe('AcademicPeriodSchema', () => {
 describe('CourseOfferingSchema', () => {
   const validOffering = {
     course: 'CSC3213' as const,
-    year: 2026,
     period: { year: 2026, semester: 'SEM1' as const },
     staff: [],
   };
@@ -168,15 +161,27 @@ describe('CourseOfferingSchema', () => {
     ).toThrow();
   });
 
-  it('rejects negative year', () => {
+  it('accepts an academic-year range', () => {
     expect(() =>
-      CourseOfferingSchema.parse({ ...validOffering, year: -2026 })
-    ).toThrow();
+      CourseOfferingSchema.parse({
+        ...validOffering,
+        period: {
+          year: '2025/2026',
+          semester: 'SEM1',
+        },
+      })
+    ).not.toThrow();
   });
 
-  it('rejects non-integer year', () => {
+  it('rejects an invalid academic-year range', () => {
     expect(() =>
-      CourseOfferingSchema.parse({ ...validOffering, year: 2026.5 })
+      CourseOfferingSchema.parse({
+        ...validOffering,
+        period: {
+          year: '2025/2027',
+          semester: 'SEM1',
+        },
+      })
     ).toThrow();
   });
 });

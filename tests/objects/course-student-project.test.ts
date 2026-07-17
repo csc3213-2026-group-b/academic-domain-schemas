@@ -123,7 +123,7 @@ describe('ProjectSchema (Group)', () => {
     ).toThrow();
   });
 
-  it('rejects a group project without student_ids', () => {
+  it('rejects a group project without studentIds', () => {
     expect(() =>
       ProjectSchema.parse({
         ...base,
