@@ -93,7 +93,7 @@ describe('StudentSchema', () => {
           },
         ],
         socialLinks: {
-          usernames: { github: 'janestudent' },
+          urls: { github: 'janestudent' },
         },
       })
     ).not.toThrow();
