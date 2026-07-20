@@ -13,6 +13,20 @@ export const KnownSocialPlatforms = [
 
 export type KnownSocialPlatform = (typeof KnownSocialPlatforms)[number];
 
+export const KnownSocialIcons = {
+  linkedin: { type: 'simple-icons', slug: 'linkedin' },
+  github: { type: 'simple-icons', slug: 'github' },
+  mastodon: { type: 'simple-icons', slug: 'mastodon' },
+  bluesky: { type: 'simple-icons', slug: 'bluesky' },
+  x: { type: 'simple-icons', slug: 'x' },
+  facebook: { type: 'simple-icons', slug: 'facebook' },
+  instagram: { type: 'simple-icons', slug: 'instagram' },
+  youtube: { type: 'simple-icons', slug: 'youtube' },
+} as const satisfies Record<
+  KnownSocialPlatform,
+  { type: 'simple-icons'; slug: string }
+>;
+
 const domainHandlePattern =
   /^(?!-)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z][a-z0-9-]{1,62}$/;
 
@@ -44,9 +58,9 @@ function normalizeLinkedin(value: string): string | null {
   let handle = normalizeBareHandle(value);
 
   if (url && isAllowedHost(url.hostname, ['linkedin.com'])) {
-    const [, section, slug] = url.pathname.split('/');
-    if (section !== 'in' || !slug) return null;
-    handle = cleanPathPart(slug);
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts[0] !== 'in' || !parts[1] || parts.length > 2) return null;
+    handle = cleanPathPart(parts[1]);
   }
 
   if (!/^[a-zA-Z0-9-]{3,100}$/.test(handle)) return null;
@@ -58,9 +72,9 @@ function normalizeGithub(value: string): string | null {
   let handle = normalizeBareHandle(value);
 
   if (url && isAllowedHost(url.hostname, ['github.com'])) {
-    const [, slug] = url.pathname.split('/');
-    if (!slug || url.pathname.split('/').length > 2) return null;
-    handle = cleanPathPart(slug);
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts.length !== 1) return null;
+    handle = cleanPathPart(parts[0] ?? '');
   }
 
   if (
@@ -87,12 +101,11 @@ function normalizeMastodon(value: string): string | null {
   let server = '';
 
   if (url) {
-    server = url.hostname.toLowerCase();
-    const [, first, second] = url.pathname.split('/');
-    if (first?.startsWith('@')) {
-      username = cleanPathPart(first);
-    } else if (first === 'users' && second) {
-      username = cleanPathPart(second);
+    server = url.hostname.toLowerCase().replace(/^www\./, '');
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts[0]?.startsWith('@')) username = cleanPathPart(parts[0]);
+    else if (parts[0] === 'users' && parts[1]) {
+      username = cleanPathPart(parts[1]);
     }
   }
 
@@ -111,9 +124,9 @@ function normalizeBluesky(value: string): string | null {
   let handle = normalizeBareHandle(value).toLowerCase();
 
   if (url) {
-    const [, section, slug] = url.pathname.split('/');
-    if (section !== 'profile' || !slug) return null;
-    handle = cleanPathPart(slug).toLowerCase();
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts[0] !== 'profile' || !parts[1] || parts.length > 2) return null;
+    handle = cleanPathPart(parts[1]).toLowerCase();
   }
 
   if (!domainHandlePattern.test(handle)) return null;
@@ -125,9 +138,9 @@ function normalizeX(value: string): string | null {
   let handle = normalizeBareHandle(value);
 
   if (url && isAllowedHost(url.hostname, ['x.com', 'twitter.com'])) {
-    const [, slug] = url.pathname.split('/');
-    if (!slug || url.pathname.split('/').length > 2) return null;
-    handle = cleanPathPart(slug);
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts.length !== 1) return null;
+    handle = cleanPathPart(parts[0] ?? '');
   }
 
   if (!/^[A-Za-z0-9_]{1,15}$/.test(handle)) return null;
@@ -139,9 +152,9 @@ function normalizeFacebook(value: string): string | null {
   let handle = normalizeBareHandle(value);
 
   if (url && isAllowedHost(url.hostname, ['facebook.com', 'fb.com'])) {
-    const [, slug] = url.pathname.split('/');
-    if (!slug || url.pathname.split('/').length > 2) return null;
-    handle = cleanPathPart(slug);
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts.length !== 1) return null;
+    handle = cleanPathPart(parts[0] ?? '');
   }
 
   if (!/^[A-Za-z0-9.]{5,50}$/.test(handle)) return null;
@@ -153,9 +166,9 @@ function normalizeInstagram(value: string): string | null {
   let handle = normalizeBareHandle(value);
 
   if (url && isAllowedHost(url.hostname, ['instagram.com'])) {
-    const [, slug] = url.pathname.split('/');
-    if (!slug || url.pathname.split('/').length > 2) return null;
-    handle = cleanPathPart(slug);
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (parts.length !== 1) return null;
+    handle = cleanPathPart(parts[0] ?? '');
   }
 
   if (!/^[A-Za-z0-9._]{1,30}$/.test(handle)) return null;
@@ -167,13 +180,19 @@ function normalizeYoutube(value: string): string | null {
   let handle = value.trim();
 
   if (url && isAllowedHost(url.hostname, ['youtube.com', 'youtu.be'])) {
-    const [, section, slug] = url.pathname.split('/');
-    if (section === 'channel' && slug && /^UC[A-Za-z0-9_-]{20,}$/.test(slug)) {
-      return `https://www.youtube.com/channel/${slug}`;
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (
+      parts[0] === 'channel' &&
+      /^UC[A-Za-z0-9_-]{20,}$/.test(parts[1] ?? '')
+    ) {
+      return `https://www.youtube.com/channel/${parts[1]}`;
     }
-    if (section?.startsWith('@')) handle = section;
-    else if (['c', 'user'].includes(section ?? '') && slug) handle = slug;
-    else return null;
+    if (parts[0]?.startsWith('@')) handle = parts[0];
+    else if (['c', 'user'].includes(parts[0] ?? '') && parts[1]) {
+      handle = parts[1];
+    } else {
+      return null;
+    }
   }
 
   handle = normalizeBareHandle(handle);
@@ -197,6 +216,41 @@ export function normalizeKnownSocialUrl(
   return normalizeYoutube(value);
 }
 
+export function detectKnownSocialUrl(
+  value: string
+): { platform: KnownSocialPlatform; url: string } | null {
+  for (const platform of KnownSocialPlatforms) {
+    const url = normalizeKnownSocialUrl(platform, value);
+    if (url) return { platform, url };
+  }
+
+  return null;
+}
+
+export const SocialIconSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('simple-icons'),
+    slug: z
+      .string()
+      .trim()
+      .min(1)
+      .regex(/^[a-z0-9-]+$/),
+  }),
+  z.object({
+    type: z.literal('font-awesome'),
+    style: z.literal('brands').default('brands'),
+    name: z
+      .string()
+      .trim()
+      .min(1)
+      .regex(/^[a-z0-9-]+$/),
+  }),
+  z.object({
+    type: z.literal('url'),
+    url: z.url(),
+  }),
+]);
+
 const knownSocialValuesSchema = z
   .object(
     Object.fromEntries(
@@ -211,33 +265,30 @@ const knownSocialValuesSchema = z
 export const SocialLinksSchema = z
   .object({
     urls: knownSocialValuesSchema,
-    usernames: knownSocialValuesSchema,
     otherPlatforms: z
       .array(
         z.object({
           platformName: z.string().trim().min(1),
           url: z.url(),
-          icon: z.url().optional(),
+          icon: SocialIconSchema.optional(),
         })
       )
       .optional(),
   })
   .transform((value, ctx) => {
     const urls: Partial<Record<KnownSocialPlatform, string>> = {};
+    const otherPlatforms: NonNullable<typeof value.otherPlatforms> = [];
 
-    for (const source of ['usernames', 'urls'] as const) {
-      const entries = value[source];
-      if (!entries) continue;
-
+    if (value.urls) {
       for (const platform of KnownSocialPlatforms) {
-        const input = entries[platform];
+        const input = value.urls[platform];
         if (!input) continue;
 
         const normalized = normalizeKnownSocialUrl(platform, input);
         if (!normalized) {
           ctx.addIssue({
             code: 'custom',
-            path: [source, platform],
+            path: ['urls', platform],
             message: `Invalid ${platform} profile URL or username`,
           });
           continue;
@@ -247,15 +298,26 @@ export const SocialLinksSchema = z
       }
     }
 
+    for (const platform of value.otherPlatforms ?? []) {
+      const known = detectKnownSocialUrl(platform.url);
+      if (known) {
+        urls[known.platform] = known.url;
+        continue;
+      }
+
+      otherPlatforms.push(platform);
+    }
+
     const result: {
       urls?: Partial<Record<KnownSocialPlatform, string>>;
-      otherPlatforms?: typeof value.otherPlatforms;
+      otherPlatforms?: typeof otherPlatforms;
     } = {};
 
     if (Object.keys(urls).length > 0) result.urls = urls;
-    if (value.otherPlatforms) result.otherPlatforms = value.otherPlatforms;
+    if (otherPlatforms.length > 0) result.otherPlatforms = otherPlatforms;
 
     return result;
   });
 
+export type SocialIcon = z.infer<typeof SocialIconSchema>;
 export type SocialLinks = z.infer<typeof SocialLinksSchema>;

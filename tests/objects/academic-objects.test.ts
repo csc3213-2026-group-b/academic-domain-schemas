@@ -4,7 +4,9 @@ import { ConferenceSchema } from '../../src/schemas/objects/academic/conference.
 import { PublicationSchema } from '../../src/schemas/objects/academic/research-publication.schema.js';
 import { ResearchSchema } from '../../src/schemas/objects/academic/research.schema.js';
 import {
+  detectKnownSocialUrl,
   normalizeKnownSocialUrl,
+  SocialIconSchema,
   SocialLinksSchema,
 } from '../../src/schemas/objects/academic/social-links.schema.js';
 
@@ -147,28 +149,6 @@ describe('SocialLinksSchema', () => {
     expect(() => SocialLinksSchema.parse({})).not.toThrow();
   });
 
-  it('normalizes legacy usernames for multiple platforms into urls', () => {
-    expect(
-      SocialLinksSchema.parse({
-        usernames: {
-          linkedin: 'johndoe',
-          github: '@johndoe',
-          instagram: 'johndoe',
-          x: '@johndoe',
-          youtube: '@johndoe',
-        },
-      })
-    ).toEqual({
-      urls: {
-        linkedin: 'https://www.linkedin.com/in/johndoe',
-        github: 'https://github.com/johndoe',
-        instagram: 'https://www.instagram.com/johndoe',
-        x: 'https://x.com/johndoe',
-        youtube: 'https://www.youtube.com/@johndoe',
-      },
-    });
-  });
-
   it('normalizes known social urls and adds canonical hosts', () => {
     expect(
       SocialLinksSchema.parse({
@@ -189,6 +169,12 @@ describe('SocialLinksSchema', () => {
     });
   });
 
+  it('normalizes old Twitter URLs to X URLs', () => {
+    expect(normalizeKnownSocialUrl('x', 'twitter.com/johndoe')).toBe(
+      'https://x.com/johndoe'
+    );
+  });
+
   it('normalizes Bluesky front-facing profile URLs to bsky.app', () => {
     expect(
       normalizeKnownSocialUrl(
@@ -204,15 +190,70 @@ describe('SocialLinksSchema', () => {
     ).toBe('https://mastodon.social/@johndoe');
   });
 
-  it('accepts other platforms', () => {
-    expect(() =>
+  it('detects known social urls entered as other platforms', () => {
+    expect(detectKnownSocialUrl('https://twitter.com/johndoe')).toEqual({
+      platform: 'x',
+      url: 'https://x.com/johndoe',
+    });
+  });
+
+  it('lifts known other-platform URLs and drops their editable icons', () => {
+    expect(
       SocialLinksSchema.parse({
         otherPlatforms: [
           {
+            platformName: 'Twitter',
+            url: 'https://twitter.com/johndoe',
+            icon: {
+              type: 'url',
+              url: 'https://example.com/icon.svg',
+            },
+          },
+          {
             platformName: 'ResearchGate',
             url: 'https://researchgate.net/profile/johndoe',
+            icon: {
+              type: 'simple-icons',
+              slug: 'researchgate',
+            },
           },
         ],
+      })
+    ).toEqual({
+      urls: {
+        x: 'https://x.com/johndoe',
+      },
+      otherPlatforms: [
+        {
+          platformName: 'ResearchGate',
+          url: 'https://researchgate.net/profile/johndoe',
+          icon: {
+            type: 'simple-icons',
+            slug: 'researchgate',
+          },
+        },
+      ],
+    });
+  });
+
+  it('accepts Font Awesome brand icons for other platforms', () => {
+    expect(
+      SocialIconSchema.parse({
+        type: 'font-awesome',
+        name: 'orcid',
+      })
+    ).toEqual({
+      type: 'font-awesome',
+      style: 'brands',
+      name: 'orcid',
+    });
+  });
+
+  it('accepts manual icon URLs for other platforms', () => {
+    expect(() =>
+      SocialIconSchema.parse({
+        type: 'url',
+        url: 'https://example.com/icon.svg',
       })
     ).not.toThrow();
   });
