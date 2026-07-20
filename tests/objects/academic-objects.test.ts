@@ -3,7 +3,10 @@ import { AcademicUsernameSchema } from '../../src/schemas/objects/academic/acade
 import { ConferenceSchema } from '../../src/schemas/objects/academic/conference.schema.js';
 import { PublicationSchema } from '../../src/schemas/objects/academic/research-publication.schema.js';
 import { ResearchSchema } from '../../src/schemas/objects/academic/research.schema.js';
-import { SocialLinksSchema } from '../../src/schemas/objects/academic/social-links.schema.js';
+import {
+  normalizeKnownSocialUrl,
+  SocialLinksSchema,
+} from '../../src/schemas/objects/academic/social-links.schema.js';
 
 // ─── Academic Username ─────────────────────────────────────────────
 
@@ -144,16 +147,61 @@ describe('SocialLinksSchema', () => {
     expect(() => SocialLinksSchema.parse({})).not.toThrow();
   });
 
-  it('accepts usernames for multiple platforms', () => {
-    expect(() =>
+  it('normalizes legacy usernames for multiple platforms into urls', () => {
+    expect(
       SocialLinksSchema.parse({
         usernames: {
           linkedin: 'johndoe',
-          github: 'johndoe',
+          github: '@johndoe',
+          instagram: 'johndoe',
           x: '@johndoe',
+          youtube: '@johndoe',
         },
       })
-    ).not.toThrow();
+    ).toEqual({
+      urls: {
+        linkedin: 'https://www.linkedin.com/in/johndoe',
+        github: 'https://github.com/johndoe',
+        instagram: 'https://www.instagram.com/johndoe',
+        x: 'https://x.com/johndoe',
+        youtube: 'https://www.youtube.com/@johndoe',
+      },
+    });
+  });
+
+  it('normalizes known social urls and adds canonical hosts', () => {
+    expect(
+      SocialLinksSchema.parse({
+        urls: {
+          instagram: 'instagram.com/@johndoe',
+          facebook: 'facebook.com/john.doe',
+          linkedin: 'linkedin.com/in/johndoe',
+          github: 'https://github.com/johndoe',
+        },
+      })
+    ).toEqual({
+      urls: {
+        instagram: 'https://www.instagram.com/johndoe',
+        facebook: 'https://www.facebook.com/john.doe',
+        linkedin: 'https://www.linkedin.com/in/johndoe',
+        github: 'https://github.com/johndoe',
+      },
+    });
+  });
+
+  it('normalizes Bluesky front-facing profile URLs to bsky.app', () => {
+    expect(
+      normalizeKnownSocialUrl(
+        'bluesky',
+        'https://example.social/profile/johndoe.bsky.social'
+      )
+    ).toBe('https://bsky.app/profile/johndoe.bsky.social');
+  });
+
+  it('normalizes Mastodon handles to server profile urls', () => {
+    expect(
+      normalizeKnownSocialUrl('mastodon', '@johndoe@mastodon.social')
+    ).toBe('https://mastodon.social/@johndoe');
   });
 
   it('accepts other platforms', () => {
@@ -191,6 +239,16 @@ describe('SocialLinksSchema', () => {
             url: 'not-a-url',
           },
         ],
+      })
+    ).toThrow();
+  });
+
+  it('rejects invalid known social links', () => {
+    expect(() =>
+      SocialLinksSchema.parse({
+        urls: {
+          instagram: 'https://example.com/johndoe',
+        },
       })
     ).toThrow();
   });
