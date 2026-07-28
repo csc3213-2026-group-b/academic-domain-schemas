@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { AcademicUsernameSchema } from '../academic/academic-username.schema.js';
 import { AcademicYearSchema } from '../academic/academic-year.schema.js';
+import { CourseOfferingIdSchema } from '../../course-offering.schema.js';
 import { CourseCodeSchema } from '../course/course-code.schema.js';
 import { SNumberSchema } from '../student/s-number.schema.js';
 
@@ -106,11 +107,26 @@ export const ProjectDatesSchema = z
 export type ProjectDates = z.infer<typeof ProjectDatesSchema>;
 
 export const ProjectCourseSchema = z.object({
+  courseId: z
+    .string()
+    .trim()
+    .min(1)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Invalid course id')
+    .optional(),
+  offeringId: CourseOfferingIdSchema.optional(),
   code: CourseCodeSchema,
   title: z.string().trim().min(1),
+  academicYear: AcademicYearSchema.optional(),
+  semester: z.enum(['SEM1', 'SEM2']).optional(),
 });
 
 export type ProjectCourse = z.infer<typeof ProjectCourseSchema>;
+
+export const ProjectCourseOfferingSchema = z.object({
+  id: CourseOfferingIdSchema,
+});
+
+export type ProjectCourseOffering = z.infer<typeof ProjectCourseOfferingSchema>;
 
 export const ProjectSchema = z
   .object({
@@ -129,6 +145,7 @@ export const ProjectSchema = z
     tags: z.array(z.string().trim().min(1)).default([]),
     academicYear: AcademicYearSchema.optional(),
     course: ProjectCourseSchema.optional(),
+    courseOffering: ProjectCourseOfferingSchema.optional(),
     batch: z.string().trim().min(1).optional(),
     groupNumber: z.string().trim().min(1).optional(),
     people: z.array(ProjectPersonSchema).min(1),
@@ -138,8 +155,9 @@ export const ProjectSchema = z
     dates: ProjectDatesSchema,
   })
   .refine(
-    (project) => project.projectType !== 'COURSE_PROJECT' || !!project.course,
-    'course is required for COURSE_PROJECT'
+    (project) =>
+      project.projectType !== 'COURSE_PROJECT' || !!project.courseOffering,
+    'courseOffering is required for COURSE_PROJECT'
   );
 
 export type Project = z.infer<typeof ProjectSchema>;
