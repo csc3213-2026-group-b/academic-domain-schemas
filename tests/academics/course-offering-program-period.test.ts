@@ -1,18 +1,18 @@
-import { describe, it, expect } from 'bun:test';
-import { CourseSchema } from '../../src/schemas/course.schema.js';
-import { CourseOfferingSchema } from '../../src/schemas/course-offering.schema.js';
-import { CourseStaffSchema } from '../../src/schemas/course-staff.schema.js';
+import { describe, expect, it } from 'bun:test';
 import { AcademicPeriodSchema } from '../../src/schemas/academic-period.schema.js';
 import {
-  ProgramSchema,
   HonoursStreamSchema,
+  ProgramSchema,
 } from '../../src/schemas/academic-program.schema.js';
-
-// ─── Course ────────────────────────────────────────────────────────
+import { CourseOfferingSchema } from '../../src/schemas/course-offering.schema.js';
+import { CourseStaffSchema } from '../../src/schemas/course-staff.schema.js';
+import { CourseSchema } from '../../src/schemas/course.schema.js';
 
 describe('CourseSchema', () => {
   const validCourse = {
-    code: 'CSC3213' as const,
+    id: 'software-engineering-project',
+    primaryCode: 'CSC3213' as const,
+    codes: ['CSC3213' as const],
     title: 'Software Engineering',
     credits: 3 as const,
   };
@@ -21,20 +21,20 @@ describe('CourseSchema', () => {
     expect(() => CourseSchema.parse(validCourse)).not.toThrow();
   });
 
-  it('accepts a course with alternative code', () => {
+  it('accepts a course with multiple codes', () => {
     expect(() =>
       CourseSchema.parse({
         ...validCourse,
-        alternativeCode: 'CSC3112',
+        codes: ['CSC3213', 'CSC3112'],
       })
     ).not.toThrow();
   });
 
   it('accepts all valid credit values', () => {
     const credits = [1, 2, 3, 6] as const;
-    for (const c of credits) {
+    for (const creditsValue of credits) {
       expect(() =>
-        CourseSchema.parse({ ...validCourse, credits: c })
+        CourseSchema.parse({ ...validCourse, credits: creditsValue })
       ).not.toThrow();
     }
   });
@@ -45,16 +45,39 @@ describe('CourseSchema', () => {
 
   it('rejects an unknown course code', () => {
     expect(() =>
-      CourseSchema.parse({ ...validCourse, code: 'XYZ9999' })
+      CourseSchema.parse({ ...validCourse, codes: ['XYZ9999'] })
+    ).toThrow();
+  });
+
+  it('rejects a primary code that is not listed in codes', () => {
+    expect(() =>
+      CourseSchema.parse({
+        ...validCourse,
+        primaryCode: 'CSC3112',
+      })
+    ).toThrow();
+  });
+
+  it('rejects duplicate course codes', () => {
+    expect(() =>
+      CourseSchema.parse({
+        ...validCourse,
+        codes: ['CSC3213', 'CSC3213'],
+      })
     ).toThrow();
   });
 
   it('rejects missing title', () => {
-    expect(() => CourseSchema.parse({ code: 'CSC3213', credits: 3 })).toThrow();
+    expect(() =>
+      CourseSchema.parse({
+        id: 'software-engineering-project',
+        primaryCode: 'CSC3213',
+        codes: ['CSC3213'],
+        credits: 3,
+      })
+    ).toThrow();
   });
 });
-
-// ─── Course Staff ──────────────────────────────────────────────────
 
 describe('CourseStaffSchema', () => {
   const validStaff = {
@@ -97,8 +120,6 @@ describe('CourseStaffSchema', () => {
   });
 });
 
-// ─── Academic Period ───────────────────────────────────────────────
-
 describe('AcademicPeriodSchema', () => {
   it('accepts SEM1', () => {
     expect(() =>
@@ -129,12 +150,12 @@ describe('AcademicPeriodSchema', () => {
   });
 });
 
-// ─── Course Offering ───────────────────────────────────────────────
-
 describe('CourseOfferingSchema', () => {
   const validOffering = {
-    course: 'CSC3213' as const,
-    period: { year: 2026, semester: 'SEM1' as const },
+    id: 'csc3213-2025-2026-sem1',
+    courseId: 'software-engineering-project',
+    academicYear: '2025/2026',
+    semester: 'SEM1' as const,
     staff: [],
   };
 
@@ -151,11 +172,12 @@ describe('CourseOfferingSchema', () => {
     ).not.toThrow();
   });
 
-  it('rejects missing course', () => {
+  it('rejects missing course id', () => {
     expect(() =>
       CourseOfferingSchema.parse({
-        year: 2026,
-        period: { year: 2026, semester: 'SEM1' },
+        id: 'csc3213-2025-2026-sem1',
+        academicYear: '2025/2026',
+        semester: 'SEM1',
         staff: [],
       })
     ).toThrow();
@@ -165,10 +187,7 @@ describe('CourseOfferingSchema', () => {
     expect(() =>
       CourseOfferingSchema.parse({
         ...validOffering,
-        period: {
-          year: '2025/2026',
-          semester: 'SEM1',
-        },
+        academicYear: '2025/2026',
       })
     ).not.toThrow();
   });
@@ -177,16 +196,11 @@ describe('CourseOfferingSchema', () => {
     expect(() =>
       CourseOfferingSchema.parse({
         ...validOffering,
-        period: {
-          year: '2025/2027',
-          semester: 'SEM1',
-        },
+        academicYear: '2025/2027',
       })
     ).toThrow();
   });
 });
-
-// ─── Program ───────────────────────────────────────────────────────
 
 describe('ProgramSchema', () => {
   it('accepts GENERAL program', () => {
@@ -250,8 +264,6 @@ describe('ProgramSchema', () => {
     ).toThrow();
   });
 });
-
-// ─── Honours Stream ───────────────────────────────────────────────
 
 describe('HonoursStreamSchema', () => {
   it('accepts COMPUTER_SCIENCE', () => {

@@ -18,8 +18,15 @@ const baseProject = {
   tags: ['Next.js', 'Workflow'],
   academicYear: '2025/2026',
   course: {
+    courseId: 'software-engineering-project',
+    offeringId: 'csc3213-2025-2026-sem2',
     code: 'CSC3213' as const,
     title: 'Software Systems Design Project',
+    academicYear: '2025/2026',
+    semester: 'SEM2' as const,
+  },
+  courseOffering: {
+    id: 'csc3213-2025-2026-sem2',
   },
   batch: '2021',
   groupNumber: 'B',
@@ -84,12 +91,12 @@ describe('ProjectSchema', () => {
     ).not.toThrow();
   });
 
-  it('requires course metadata for course projects', () => {
+  it('requires course offering metadata for course projects', () => {
     expect(() =>
       ProjectSchema.parse({
         ...baseProject,
         projectType: 'COURSE_PROJECT',
-        course: undefined,
+        courseOffering: undefined,
       })
     ).toThrow();
   });
