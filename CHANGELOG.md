@@ -1,5 +1,11 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 3.1.0
+
+### Minor Changes
+
+- 978e1e4: Add canonical course and course-offering schemas, and require course projects to reference an offering.
+
 ## 3.0.0
 
 ### Major Changes
