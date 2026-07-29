@@ -69,7 +69,10 @@ describe('StudentSchema', () => {
     title: 'Mr' as const,
     fullName: 'Jane Student',
     registrationNo: 'S22SP123',
-    level: 'UNDERGRADUATE' as const,
+    studentType: 'UNDERGRADUATE' as const,
+    studentTrack: 'HONOURS' as const,
+    level: '4000' as const,
+    status: 'CURRENT' as const,
   };
 
   it('accepts a minimal valid student', () => {
@@ -105,23 +108,56 @@ describe('StudentSchema', () => {
     ).toThrow();
   });
 
-  it('rejects missing level', () => {
+  it('rejects missing student type', () => {
     expect(() =>
-      StudentSchema.parse({ ...validStudent, level: undefined })
+      StudentSchema.parse({ ...validStudent, studentType: undefined })
     ).toThrow();
   });
 
-  it('rejects an invalid level', () => {
+  it('rejects missing status', () => {
     expect(() =>
-      StudentSchema.parse({ ...validStudent, level: 'PHD' })
+      StudentSchema.parse({ ...validStudent, status: undefined })
     ).toThrow();
+  });
+
+  it('rejects the old category values as level', () => {
+    expect(() =>
+      StudentSchema.parse({ ...validStudent, level: 'UNDERGRADUATE' })
+    ).toThrow();
+  });
+
+  it('accepts all valid student type enum values', () => {
+    const studentTypes = ['UNDERGRADUATE', 'POSTGRADUATE'] as const;
+    for (const studentType of studentTypes) {
+      expect(() =>
+        StudentSchema.parse({ ...validStudent, studentType })
+      ).not.toThrow();
+    }
+  });
+
+  it('accepts all valid student track enum values', () => {
+    const studentTracks = ['GENERAL', 'HONOURS'] as const;
+    for (const studentTrack of studentTracks) {
+      expect(() =>
+        StudentSchema.parse({ ...validStudent, studentTrack })
+      ).not.toThrow();
+    }
   });
 
   it('accepts all valid level enum values', () => {
-    const levels = ['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMNI'] as const;
+    const levels = ['1000', '2000', '3000', '4000'] as const;
     for (const level of levels) {
       expect(() =>
         StudentSchema.parse({ ...validStudent, level })
+      ).not.toThrow();
+    }
+  });
+
+  it('accepts all valid status enum values', () => {
+    const statuses = ['CURRENT', 'ALUMNI'] as const;
+    for (const status of statuses) {
+      expect(() =>
+        StudentSchema.parse({ ...validStudent, status })
       ).not.toThrow();
     }
   });

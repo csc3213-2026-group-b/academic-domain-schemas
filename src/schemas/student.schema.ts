@@ -4,9 +4,17 @@ import { PublicationSchema } from './objects/academic/research-publication.schem
 import { SocialLinksSchema } from './objects/academic/social-links.schema.js';
 import { SNumberSchema } from './objects/student/s-number.schema.js';
 
+export const StudentTypeSchema = z.enum(['UNDERGRADUATE', 'POSTGRADUATE']);
+export const StudentTrackSchema = z.enum(['GENERAL', 'HONOURS']);
+export const StudentLevelSchema = z.enum(['1000', '2000', '3000', '4000']);
+export const StudentStatusSchema = z.enum(['CURRENT', 'ALUMNI']);
+
 export const StudentSchema = PersonSchema.extend({
   registrationNo: SNumberSchema,
-  level: z.enum(['UNDERGRADUATE', 'POSTGRADUATE', 'ALUMNI']),
+  studentType: StudentTypeSchema,
+  studentTrack: StudentTrackSchema.optional(),
+  level: StudentLevelSchema.optional(),
+  status: StudentStatusSchema,
   personalEmail: z.email().optional(),
   researchInterests: z.array(z.string()).optional(),
   publications: z.array(PublicationSchema).optional(),
@@ -23,4 +31,8 @@ export const StudentSchema = PersonSchema.extend({
   socialLinks: SocialLinksSchema.optional(),
 });
 
+export type StudentType = z.infer<typeof StudentTypeSchema>;
+export type StudentTrack = z.infer<typeof StudentTrackSchema>;
+export type StudentLevel = z.infer<typeof StudentLevelSchema>;
+export type StudentStatus = z.infer<typeof StudentStatusSchema>;
 export type Student = z.infer<typeof StudentSchema>;
