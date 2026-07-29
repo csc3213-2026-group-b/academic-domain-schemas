@@ -1,60 +1,68 @@
-# Welcome to the Academic Domain Schemas Package
+# Academic Domain Schemas
 
-This package contains shared TypeScript domain schemas and Zod validation models for a single academic department system, covering staff, academic programs, courses, students, and year-dependent relationships.
+Shared TypeScript and Zod schemas for the SCS PDN academic data model.
 
-## Usage
+This package is the contract layer used by the portal, API, GitHub App, public
+data validators, and public sites. It defines the JSON shapes for people,
+students, staff, courses, course offerings, projects, research objects, and
+other department-owned records.
 
-This package provides Zod schemas that can be used to validate data structures related to the academic domain. To use these schemas, follow these steps:
+## What This Package Owns
 
-1. Install the package using npm:
+- People and staff profile schemas.
+- Student profile schemas.
+- Academic program, course, and course offering schemas.
+- Project registry schemas.
+- Shared object schemas such as publications, social links, and S-number
+  validation.
 
-   ```bash
-   # Using npm:
-   npm install @csc3213-2026-group-b/academic-domain-schemas@latest
+Consumers should import from the package root only:
 
-   # or using bun:
-   bun add @csc3213-2026-group-b/academic-domain-schemas@latest
+```ts
+import {
+  ProjectSchema,
+  StudentSchema,
+  type Project,
+  type Student,
+} from '@csc3213-2026-group-b/academic-domain-schemas';
+```
 
-   # or using yarn:
-   yarn add @csc3213-2026-group-b/academic-domain-schemas@latest
+Do not import from internal `src/` or `dist/` subpaths. Those paths are not part
+of the public contract.
 
-   # or using pnpm:
-   pnpm add @csc3213-2026-group-b/academic-domain-schemas
-   ```
+## Student Profile Model
 
-2. Import and use the schemas in your project as needed.
-
-   ```typescript
-   import {
-     StudentSchema,
-     type Student,
-   } from '@csc3213-2026-group-b/academic-domain-schemas';
-
-   const result = StudentSchema.safeParse(data);
-   ```
-
-   > NOTE: Do not import the schemas from subdirectories within the package, as the destination paths may change in the future. Always import directly from the package root to ensure compatibility with future updates.
-
-## Student Profiles
-
-Student records use separate fields for type, track, academic level, and
-directory status:
+Student records keep category, track, level, and status separate:
 
 - `studentType`: `UNDERGRADUATE` or `POSTGRADUATE`
 - `studentTrack`: optional `GENERAL` or `HONOURS`
 - `level`: optional `1000`, `2000`, `3000`, or `4000`
 - `status`: `CURRENT` or `ALUMNI`
 
-`level` is the year/level value only. Do not use the old category values
-`UNDERGRADUATE`, `POSTGRADUATE`, or `ALUMNI` as `level`.
+`level` is only the academic year or level. Do not use old category values such
+as `UNDERGRADUATE`, `POSTGRADUATE`, or `ALUMNI` as `level`.
 
-## Contribution Guidelines
+## Local Development
 
-Please follow these guidelines:
+```sh
+bun install
+bun run typecheck
+bun test
+bun run build
+```
 
-1. Fork the package and create a new branch for your feature or bug fix.
-2. Make your changes and ensure that they adhere to the project's coding standards.
-3. Submit a pull request with a clear description of your changes.
-4. Participate in the code review process and make any requested changes.
+Useful scripts:
 
-By following these guidelines, you help maintain the quality and integrity of the project. Thank you for your contributions!
+- `bun run dev` - watch TypeScript builds.
+- `bun run build` - compile the package into `dist/`.
+- `bun test` - run schema tests.
+- `bun run format:check` - check formatting.
+- `bun run lint-staged` - run the same staged-file checks as the pre-commit
+  hook.
+
+## Publishing
+
+The package is published as
+`@csc3213-2026-group-b/academic-domain-schemas`. Version changes should be made
+intentionally because downstream repos use this package as their validation
+contract.
