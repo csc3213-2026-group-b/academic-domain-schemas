@@ -35,6 +35,19 @@ This package provides Zod schemas that can be used to validate data structures r
 
    > NOTE: Do not import the schemas from subdirectories within the package, as the destination paths may change in the future. Always import directly from the package root to ensure compatibility with future updates.
 
+## Student Profiles
+
+Student records use separate fields for type, track, academic level, and
+directory status:
+
+- `studentType`: `UNDERGRADUATE` or `POSTGRADUATE`
+- `studentTrack`: optional `GENERAL` or `HONOURS`
+- `level`: optional `1000`, `2000`, `3000`, or `4000`
+- `status`: `CURRENT` or `ALUMNI`
+
+`level` is the year/level value only. Do not use the old category values
+`UNDERGRADUATE`, `POSTGRADUATE`, or `ALUMNI` as `level`.
+
 ## Contribution Guidelines
 
 Please follow these guidelines:
