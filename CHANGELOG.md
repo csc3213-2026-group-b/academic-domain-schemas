@@ -1,5 +1,11 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 4.0.0
+
+### Major Changes
+
+- Split student profile classification into studentType, studentTrack, level, and status.
+
 ## 3.1.0
 
 ### Minor Changes
