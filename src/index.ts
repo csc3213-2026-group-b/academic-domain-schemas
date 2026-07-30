@@ -30,6 +30,8 @@ export * from './schemas/objects/academic/social-links.schema.js';
 
 export * from './schemas/objects/course/course-code.schema.js';
 
+export * from './schemas/objects/people/people-search.schema.js';
+
 export * from './schemas/objects/project/project.schema.js';
 
 export * from './schemas/objects/student/s-number.schema.js';
