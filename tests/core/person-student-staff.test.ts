@@ -190,6 +190,14 @@ describe('StudentSchema', () => {
     ).not.toThrow();
   });
 
+  it('rejects general undergraduate placement at 4000 level', () => {
+    expect(() =>
+      StudentPlacementListSchema.parse([
+        { batch: 's21', studentTrack: 'GENERAL', level: '4000' },
+      ])
+    ).toThrow('General students cannot be assigned to 4000 level');
+  });
+
   it('validates compact alumni batch data', () => {
     expect(() =>
       AlumniBatchListSchema.parse([

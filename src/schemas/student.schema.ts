@@ -22,15 +22,24 @@ export const PostgraduateProgrammeSchema = z.enum([
 export const SlqfLevelSchema = z.enum(['L7', 'L8', 'L9', 'L10', 'L11', 'L12']);
 export const StudentStreamSchema = z.enum(['cs', 'ds', 'stat', 'sor']);
 
-export const StudentPlacementSchema = z.object({
-  batch: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .regex(/^s\d{2}$/),
-  studentTrack: StudentTrackSchema,
-  level: StudentLevelSchema,
-});
+export const StudentPlacementSchema = z
+  .object({
+    batch: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .regex(/^s\d{2}$/),
+    studentTrack: StudentTrackSchema,
+    level: StudentLevelSchema,
+  })
+  .refine(
+    (placement) =>
+      placement.studentTrack !== 'GENERAL' || placement.level !== '4000',
+    {
+      message: 'General students cannot be assigned to 4000 level',
+      path: ['level'],
+    }
+  );
 
 export const StudentPlacementListSchema = z.array(StudentPlacementSchema);
 
