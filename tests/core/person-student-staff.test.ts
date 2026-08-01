@@ -1,7 +1,12 @@
 import { describe, it, expect } from 'bun:test';
 import { PersonSchema } from '../../src/schemas/person.schema.js';
 import { StaffSchema } from '../../src/schemas/staff.schema.js';
-import { StudentSchema } from '../../src/schemas/student.schema.js';
+import {
+  AlumniBatchListSchema,
+  PostgraduateProgrammeDefinitionListSchema,
+  StudentPlacementListSchema,
+  StudentSchema,
+} from '../../src/schemas/student.schema.js';
 
 // ─── Person ────────────────────────────────────────────────────────
 
@@ -160,6 +165,54 @@ describe('StudentSchema', () => {
         StudentSchema.parse({ ...validStudent, status })
       ).not.toThrow();
     }
+  });
+
+  it('accepts postgraduate programme and SLQF level fields', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        studentType: 'POSTGRADUATE',
+        studentTrack: undefined,
+        level: undefined,
+        postgraduateProgramme: 'MSC',
+        slqfLevel: 'L10',
+      })
+    ).not.toThrow();
+  });
+
+  it('validates trusted undergraduate placement data', () => {
+    expect(() =>
+      StudentPlacementListSchema.parse([
+        { batch: 's21', studentTrack: 'GENERAL', level: '3000' },
+        { batch: 's21', studentTrack: 'HONOURS', level: '4000' },
+      ])
+    ).not.toThrow();
+  });
+
+  it('validates compact alumni batch data', () => {
+    expect(() =>
+      AlumniBatchListSchema.parse([
+        { batch: 's21', studentTracks: ['GENERAL'] },
+        { batch: 's20', studentTracks: ['GENERAL', 'HONOURS'] },
+      ])
+    ).not.toThrow();
+  });
+
+  it('validates postgraduate programme definitions', () => {
+    expect(() =>
+      PostgraduateProgrammeDefinitionListSchema.parse([
+        {
+          programme: 'POSTGRADUATE_CERTIFICATE',
+          label: 'Postgraduate Certificate',
+          slqfLevel: 'L7',
+        },
+        {
+          programme: 'PHD',
+          label: 'Doctor of Philosophy (PhD)',
+          slqfLevel: 'L12',
+        },
+      ])
+    ).not.toThrow();
   });
 
   it('rejects an invalid registration number', () => {
