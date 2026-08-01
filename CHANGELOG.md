@@ -1,5 +1,11 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 4.1.1
+
+### Patch Changes
+
+- Reject undergraduate placement rules that assign General students to 4000 level.
+
 ## 4.1.0
 
 ### Minor Changes
