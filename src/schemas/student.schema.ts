@@ -20,6 +20,7 @@ export const PostgraduateProgrammeSchema = z.enum([
   'PHD_UPGRADE_FROM_MPHIL',
 ]);
 export const SlqfLevelSchema = z.enum(['L7', 'L8', 'L9', 'L10', 'L11', 'L12']);
+export const StudentStreamSchema = z.enum(['cs', 'ds', 'stat', 'sor']);
 
 export const StudentPlacementSchema = z.object({
   batch: z
@@ -54,6 +55,17 @@ export const PostgraduateProgrammeDefinitionListSchema = z.array(
   PostgraduateProgrammeDefinitionSchema
 );
 
+export const StudentStreamDefinitionSchema = z.object({
+  stream: StudentStreamSchema,
+  label: z.string().trim().min(1),
+  directory: z.string().trim().min(1).optional(),
+  publicDirectory: z.boolean().default(true),
+});
+
+export const StudentStreamDefinitionListSchema = z.array(
+  StudentStreamDefinitionSchema
+);
+
 export const StudentSchema = PersonSchema.extend({
   registrationNo: SNumberSchema,
   studentType: StudentTypeSchema,
@@ -84,9 +96,13 @@ export type StudentLevel = z.infer<typeof StudentLevelSchema>;
 export type StudentStatus = z.infer<typeof StudentStatusSchema>;
 export type PostgraduateProgramme = z.infer<typeof PostgraduateProgrammeSchema>;
 export type SlqfLevel = z.infer<typeof SlqfLevelSchema>;
+export type StudentStream = z.infer<typeof StudentStreamSchema>;
 export type StudentPlacement = z.infer<typeof StudentPlacementSchema>;
 export type AlumniBatch = z.infer<typeof AlumniBatchSchema>;
 export type PostgraduateProgrammeDefinition = z.infer<
   typeof PostgraduateProgrammeDefinitionSchema
+>;
+export type StudentStreamDefinition = z.infer<
+  typeof StudentStreamDefinitionSchema
 >;
 export type Student = z.infer<typeof StudentSchema>;
