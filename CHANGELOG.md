@@ -1,5 +1,13 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 4.1.0
+
+### Minor Changes
+
+- 4fa942c: Add lightweight public people search index schemas.
+- 2a32ae3: Add student placement metadata schemas and postgraduate programme/SLQF student profile fields.
+- a7eba37: Add schema support for trusted student stream definitions.
+
 ## 4.0.0
 
 ### Major Changes
