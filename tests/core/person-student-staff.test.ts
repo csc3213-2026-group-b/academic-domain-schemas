@@ -5,6 +5,7 @@ import {
   AlumniBatchListSchema,
   PostgraduateProgrammeDefinitionListSchema,
   StudentPlacementListSchema,
+  StudentStreamDefinitionListSchema,
   StudentSchema,
 } from '../../src/schemas/student.schema.js';
 
@@ -210,6 +211,24 @@ describe('StudentSchema', () => {
           programme: 'PHD',
           label: 'Doctor of Philosophy (PhD)',
           slqfLevel: 'L12',
+        },
+      ])
+    ).not.toThrow();
+  });
+
+  it('validates honours stream definitions', () => {
+    expect(() =>
+      StudentStreamDefinitionListSchema.parse([
+        {
+          stream: 'cs',
+          label: 'Computer Science',
+          directory: 'cs',
+          publicDirectory: true,
+        },
+        {
+          stream: 'sor',
+          label: 'Statistics and Operations Research',
+          publicDirectory: false,
         },
       ])
     ).not.toThrow();
