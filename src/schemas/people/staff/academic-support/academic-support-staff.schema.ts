@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PersonSchema } from '../person.schema.js';
+import { PersonSchema } from '../../person.schema.js';
 import { AcademicSupportPositionSchema } from './academic-support-position.schema.js';
 
 export const AcademicSupportStaffSchema = PersonSchema.extend({

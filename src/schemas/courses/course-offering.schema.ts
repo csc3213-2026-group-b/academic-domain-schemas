@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { CourseStaffSchema } from './course-staff.schema.js';
-import { AcademicYearSchema } from './objects/academic/academic-year.schema.js';
+import { AcademicYearSchema } from '../academics/academic-year.schema.js';
 import { CourseIdSchema } from './course.schema.js';
 
 export const CourseOfferingIdSchema = z

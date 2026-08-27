@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CourseCodeSchema } from './objects/course/course-code.schema.js';
+import { CourseCodeSchema } from './course-code.schema.js';
 
 export const CourseIdSchema = z
   .string()

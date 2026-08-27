@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { PersonSchema } from './person.schema.js';
-import { PublicationSchema } from './objects/academic/research-publication.schema.js';
-import { SocialLinksSchema } from './objects/academic/social-links.schema.js';
-import { SNumberSchema } from './objects/student/s-number.schema.js';
+import { PersonSchema } from '../person.schema.js';
+import { PublicationSchema } from '../../research/research-publication.schema.js';
+import { SocialLinksSchema } from '../social-links.schema.js';
+import { SNumberSchema } from '../identifiers/s-number.schema.js';
 
 export const StudentTypeSchema = z.enum(['UNDERGRADUATE', 'POSTGRADUATE']);
 export const StudentTrackSchema = z.enum(['GENERAL', 'HONOURS']);

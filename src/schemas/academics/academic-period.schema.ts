@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AcademicYearSchema } from './objects/academic/academic-year.schema.js';
+import { AcademicYearSchema } from './academic-year.schema.js';
 
 export const AcademicPeriodSchema = z.object({
   year: AcademicYearSchema,

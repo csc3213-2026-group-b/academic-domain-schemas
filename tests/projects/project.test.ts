@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import {
   ProjectSchema,
   type Project,
-} from '../../src/schemas/objects/project/project.schema.js';
+} from '../../src/schemas/projects/project.schema.js';
 
 const baseProject = {
   id: 'prj-scholarship-system',
