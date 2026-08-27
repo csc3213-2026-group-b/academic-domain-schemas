@@ -15,6 +15,10 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "paths": {
+      "@/index": ["./src/index", "./src/index.ts"],
+      "@/schemas/*": ["./src/schemas/*", "./src/schemas/*.ts"]
+    },
     "types": ["node", "bun"]
   },
   "include": ["src"],
