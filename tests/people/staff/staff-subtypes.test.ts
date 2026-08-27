@@ -1,10 +1,11 @@
-import { describe, it, expect } from 'bun:test';
-import { AcademicRankSchema } from '../../../src/schemas/people/staff/academic-teaching/academic-rank.schema.js';
-import { AcademicTeachingStaffSchema } from '../../../src/schemas/people/staff/academic-teaching/academic-teaching-staff.schema.js';
-import { AcademicSupportPositionSchema } from '../../../src/schemas/people/staff/academic-support/academic-support-position.schema.js';
-import { AcademicSupportStaffSchema } from '../../../src/schemas/people/staff/academic-support/academic-support-staff.schema.js';
-import { NonAcademicPositionSchema } from '../../../src/schemas/people/staff/non-academic/non-academic-position.schema.js';
-import { NonAcademicStaffSchema } from '../../../src/schemas/people/staff/non-academic/non-academic-staff.schema.js';
+import { describe, expect, it } from 'bun:test';
+
+import { AcademicSupportPositionSchema } from '@/schemas/people/staff/academic-support/academic-support-position.schema';
+import { AcademicSupportStaffSchema } from '@/schemas/people/staff/academic-support/academic-support-staff.schema';
+import { AcademicRankSchema } from '@/schemas/people/staff/academic-teaching/academic-rank.schema';
+import { AcademicTeachingStaffSchema } from '@/schemas/people/staff/academic-teaching/academic-teaching-staff.schema';
+import { NonAcademicPositionSchema } from '@/schemas/people/staff/non-academic/non-academic-position.schema';
+import { NonAcademicStaffSchema } from '@/schemas/people/staff/non-academic/non-academic-staff.schema';
 
 // ─── Academic Rank ─────────────────────────────────────────────────
 

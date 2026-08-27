@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { AcademicUsernameSchema } from '../../src/schemas/people/identifiers/academic-username.schema.js';
-import { SNumberSchema } from '../../src/schemas/people/identifiers/s-number.schema.js';
+
+import { AcademicUsernameSchema } from '@/schemas/people/identifiers/academic-username.schema';
+import { SNumberSchema } from '@/schemas/people/identifiers/s-number.schema';
 
 describe('AcademicUsernameSchema', () => {
   it('accepts a valid username starting with a letter', () => {

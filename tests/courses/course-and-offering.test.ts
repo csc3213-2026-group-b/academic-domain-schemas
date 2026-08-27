@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { CourseOfferingSchema } from '../../src/schemas/courses/course-offering.schema.js';
-import { CourseStaffSchema } from '../../src/schemas/courses/course-staff.schema.js';
-import { CourseSchema } from '../../src/schemas/courses/course.schema.js';
+
+import { CourseSchema } from '@/schemas/courses/course.schema';
+import { CourseOfferingSchema } from '@/schemas/courses/course-offering.schema';
+import { CourseStaffSchema } from '@/schemas/courses/course-staff.schema';
 
 describe('CourseSchema', () => {
   const validCourse = {

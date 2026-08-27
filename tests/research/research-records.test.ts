@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { ConferenceSchema } from '../../src/schemas/research/conference.schema.js';
-import { PublicationSchema } from '../../src/schemas/research/research-publication.schema.js';
-import { ResearchSchema } from '../../src/schemas/research/research.schema.js';
+
+import { ConferenceSchema } from '@/schemas/research/conference.schema';
+import { ResearchSchema } from '@/schemas/research/research.schema';
+import { PublicationSchema } from '@/schemas/research/research-publication.schema';
 
 describe('ConferenceSchema', () => {
   it('accepts a valid conference with required fields', () => {

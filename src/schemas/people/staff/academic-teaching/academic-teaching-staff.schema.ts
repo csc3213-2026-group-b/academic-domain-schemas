@@ -1,11 +1,12 @@
 import { z } from 'zod';
-import { PersonSchema } from '../../person.schema.js';
-import { AcademicRankSchema } from './academic-rank.schema.js';
-import { PublicationSchema } from '../../../research/research-publication.schema.js';
-import { ConferenceSchema } from '../../../research/conference.schema.js';
-import { ResearchSchema } from '../../../research/research.schema.js';
-import { SocialLinksSchema } from '../../social-links.schema.js';
-import { CourseCodeSchema } from '../../../courses/course-code.schema.js';
+
+import { CourseCodeSchema } from '@/schemas/courses/course-code.schema';
+import { PersonSchema } from '@/schemas/people/person.schema';
+import { SocialLinksSchema } from '@/schemas/people/social-links.schema';
+import { AcademicRankSchema } from '@/schemas/people/staff/academic-teaching/academic-rank.schema';
+import { ConferenceSchema } from '@/schemas/research/conference.schema';
+import { ResearchSchema } from '@/schemas/research/research.schema';
+import { PublicationSchema } from '@/schemas/research/research-publication.schema';
 
 export const AcademicTeachingStaffSchema = PersonSchema.extend({
   staffType: z.literal('ACADEMIC_TEACHING'),

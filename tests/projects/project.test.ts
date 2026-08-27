@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import {
-  ProjectSchema,
-  type Project,
-} from '../../src/schemas/projects/project.schema.js';
+
+import { type Project, ProjectSchema } from '@/schemas/projects/project.schema';
 
 const baseProject = {
   id: 'prj-scholarship-system',

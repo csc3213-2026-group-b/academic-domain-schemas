@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 
-import * as publicApi from '../../src/index.js';
+import * as publicApi from '@/index';
 
 const expectedRuntimeExports = [
   'AcademicPeriodSchema',
@@ -65,9 +65,11 @@ const expectedRuntimeExports = [
 ] as const satisfies readonly (keyof typeof publicApi)[];
 
 describe('package public API', () => {
-  it.each(expectedRuntimeExports)('exports %s', (exportName) => {
-    expect(publicApi[exportName]).toBeDefined();
-  });
+  for (const exportName of expectedRuntimeExports) {
+    it(`exports ${exportName}`, () => {
+      expect(publicApi[exportName]).toBeDefined();
+    });
+  }
 
   it('does not expose an unexpected runtime contract', () => {
     expect(Object.keys(publicApi).sort()).toEqual(

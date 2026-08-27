@@ -8,14 +8,12 @@ export const HonoursStreamSchema = z.enum([
 ]);
 
 export const ProgramSchema = z.discriminatedUnion('code', [
-  // GENERAL
   z.object({
     code: z.literal('GENERAL'),
     title: z.literal('BSc'),
     durationYears: z.literal(3),
   }),
 
-  // HONOURS
   z.object({
     code: z.literal('HONOURS'),
     title: z.literal('BSc(Hons)'),
@@ -23,7 +21,6 @@ export const ProgramSchema = z.discriminatedUnion('code', [
     honoursStream: HonoursStreamSchema,
   }),
 
-  // SOR
   z.object({
     code: z.literal('SOR'),
     title: z.literal('BSc(Hons) SOR'),

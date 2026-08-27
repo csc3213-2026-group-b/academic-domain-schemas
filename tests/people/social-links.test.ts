@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'bun:test';
+
 import {
   detectKnownSocialUrl,
   normalizeKnownSocialUrl,
   SocialIconSchema,
   SocialLinksSchema,
-} from '../../src/schemas/people/social-links.schema.js';
+} from '@/schemas/people/social-links.schema';
 
 describe('SocialLinksSchema', () => {
   it('accepts an empty social-links object', () => {

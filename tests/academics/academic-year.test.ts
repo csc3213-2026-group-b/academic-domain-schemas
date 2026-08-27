@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'bun:test';
-import { AcademicYearSchema } from '../../src/schemas/academics/academic-year.schema.js';
+import { describe, expect, it } from 'bun:test';
+
+import { AcademicYearSchema } from '@/schemas/academics/academic-year.schema';
 
 describe('Academic Year', () => {
   it.each(['2024/2025', '2025/2026', '1999/2000', '2099/2100'])(

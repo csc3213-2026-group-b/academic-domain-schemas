@@ -1,13 +1,14 @@
-import { describe, it, expect } from 'bun:test';
-import { PersonSchema } from '../../src/schemas/people/person.schema.js';
-import { StaffSchema } from '../../src/schemas/people/staff/staff.schema.js';
+import { describe, expect, it } from 'bun:test';
+
+import { PersonSchema } from '@/schemas/people/person.schema';
+import { StaffSchema } from '@/schemas/people/staff/staff.schema';
 import {
   AlumniBatchListSchema,
   PostgraduateProgrammeDefinitionListSchema,
   StudentPlacementListSchema,
-  StudentStreamDefinitionListSchema,
   StudentSchema,
-} from '../../src/schemas/people/students/student.schema.js';
+  StudentStreamDefinitionListSchema,
+} from '@/schemas/people/students/student.schema';
 
 // ─── Person ────────────────────────────────────────────────────────
 

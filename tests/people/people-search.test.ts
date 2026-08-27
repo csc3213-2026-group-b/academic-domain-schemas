@@ -3,7 +3,7 @@ import { describe, expect, test } from 'bun:test';
 import {
   PeopleSearchEntrySchema,
   PeopleSearchIndexSchema,
-} from '../../src/schemas/people/people-search.schema.js';
+} from '@/schemas/people/people-search.schema';
 
 const validEntry = {
   id: 'student:s21513',

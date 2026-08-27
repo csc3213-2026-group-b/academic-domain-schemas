@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'bun:test';
-import { AcademicPeriodSchema } from '../../src/schemas/academics/academic-period.schema.js';
+
+import { AcademicPeriodSchema } from '@/schemas/academics/academic-period.schema';
 import {
   HonoursStreamSchema,
   ProgramSchema,
-} from '../../src/schemas/academics/academic-program.schema.js';
+} from '@/schemas/academics/academic-program.schema';
 
 describe('AcademicPeriodSchema', () => {
   it('accepts SEM1', () => {
