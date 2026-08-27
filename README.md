@@ -33,4 +33,9 @@ bun test
 bun run build
 ```
 
+## Documentation
+
+Schema maps, Mermaid diagrams, and domain notes live in
+[docs](./docs/README.md).
+
 Use this repo when a shared academic JSON shape needs to change.
