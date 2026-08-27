@@ -1,5 +1,11 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 4.2.0
+
+### Minor Changes
+
+- 20d6f6c:
+
 ## 4.1.1
 
 ### Patch Changes
