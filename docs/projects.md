@@ -36,6 +36,7 @@ flowchart TD
   ProjectCourseSchema["ProjectCourseSchema"]
   ProjectCourseOfferingSchema["ProjectCourseOfferingSchema"]
   AcademicYearSchema["AcademicYearSchema"]
+  AcademicDepartmentCodeSchema["AcademicDepartmentCodeSchema"]
   CourseCodeSchema["CourseCodeSchema"]
   CourseOfferingIdSchema["CourseOfferingIdSchema"]
   AcademicUsernameSchema["AcademicUsernameSchema"]
@@ -52,6 +53,8 @@ flowchart TD
   ProjectCourseOfferingSchema --> ProjectSchema
   AcademicYearSchema --> ProjectSchema
   AcademicYearSchema --> ProjectCourseSchema
+  AcademicDepartmentCodeSchema --> ProjectSchema
+  AcademicDepartmentCodeSchema --> ProjectCourseSchema
   CourseCodeSchema --> ProjectCourseSchema
   CourseOfferingIdSchema --> ProjectCourseSchema
   CourseOfferingIdSchema --> ProjectCourseOfferingSchema
@@ -67,7 +70,7 @@ flowchart TD
   classDef project fill:#0f172a,color:#ffffff,stroke:#0f172a
   classDef external fill:#f8fafc,color:#0f172a,stroke:#64748b
   class ProjectSchema,ProjectTypeSchema,ProjectStatusSchema,ProjectPersonSchema,ProjectLinksSchema,ProjectSourceSchema,ProjectMediaSchema,ProjectDatesSchema,ProjectCourseSchema,ProjectCourseOfferingSchema project
-  class AcademicYearSchema,CourseCodeSchema,CourseOfferingIdSchema,AcademicUsernameSchema,SNumberSchema external
+  class AcademicYearSchema,AcademicDepartmentCodeSchema,CourseCodeSchema,CourseOfferingIdSchema,AcademicUsernameSchema,SNumberSchema external
 ```
 
 ## Top-Level Project
@@ -85,6 +88,7 @@ Main registry record:
 - `status`: `ProjectStatusSchema`.
 - `categories`: one or more non-empty strings.
 - `tags`: array of strings, defaults to an empty array.
+- `departments`: metadata for one or more related departments.
 - `academicYear`: optional `AcademicYearSchema`.
 - `course`: optional `ProjectCourseSchema`.
 - `courseOffering`: optional `ProjectCourseOfferingSchema`.
@@ -175,6 +179,7 @@ Course-facing project metadata:
 - required `title`,
 - optional `academicYear`,
 - optional `semester`.
+- `departments`: metadata for one or more related departments.
 
 ### ProjectCourseOfferingSchema
 
@@ -187,5 +192,7 @@ Minimal reference to a controlled course offering:
 - Do not use courses, categories, or tags as project identity. The project slug
   and ID remain the primary identity.
 - Keep course-project validation aligned with [Courses](./courses.md).
+- Use project `departments` as descriptive metadata; project slug and ID remain
+  the project identity.
 - Keep `ProjectPersonSchema` flexible enough to reference people by username,
   email, or S-number because not every contributor has the same identity source.

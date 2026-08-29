@@ -178,8 +178,37 @@ describe('StudentSchema', () => {
         level: undefined,
         postgraduateProgramme: 'MSC',
         slqfLevel: 'L10',
+        subjects: ['COMPUTER_SCIENCE', 'STATISTICS'],
+        honoursProgramme: 'COMPUTER_SCIENCE',
       })
     ).not.toThrow();
+  });
+
+  it('rejects student subjects with fewer than two subjects', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        subjects: ['COMPUTER_SCIENCE'],
+      })
+    ).toThrow();
+  });
+
+  it('rejects student subjects with more than three subjects', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        subjects: ['COMPUTER_SCIENCE', 'STATISTICS', 'MATHEMATICS', 'PHYSICS'],
+      })
+    ).toThrow();
+  });
+
+  it('rejects duplicate student subjects', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        subjects: ['STATISTICS', 'STATISTICS'],
+      })
+    ).toThrow();
   });
 
   it('validates trusted undergraduate placement data', () => {
@@ -260,6 +289,19 @@ describe('StaffSchema', () => {
         fullName: 'Dr. Smith',
         staffType: 'ACADEMIC_TEACHING',
         academicRank: 'PROFESSOR',
+        department: 'PHYSICS',
+      })
+    ).not.toThrow();
+  });
+
+  it('accepts Academic Teaching staff attached to an academic unit', () => {
+    expect(() =>
+      StaffSchema.parse({
+        title: 'Dr',
+        fullName: 'Unit Lecturer',
+        staffType: 'ACADEMIC_TEACHING',
+        academicRank: 'SENIOR_LECTURER',
+        unit: 'SCIENCE_EDUCATION_UNIT',
       })
     ).not.toThrow();
   });
@@ -271,6 +313,7 @@ describe('StaffSchema', () => {
         fullName: 'Tech Support',
         staffType: 'ACADEMIC_SUPPORT',
         designation: 'SYSTEMS_ANALYST',
+        unit: 'COMPUTER_UNIT',
       })
     ).not.toThrow();
   });
@@ -282,6 +325,7 @@ describe('StaffSchema', () => {
         fullName: 'Office Admin',
         staffType: 'NON_ACADEMIC',
         designation: 'STAFF_ASSISTANT',
+        department: 'MATHEMATICS',
       })
     ).not.toThrow();
   });

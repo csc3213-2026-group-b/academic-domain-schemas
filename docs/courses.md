@@ -3,8 +3,8 @@
 [Docs home](./README.md) | [Public API](./public-api.md) | [Academics](./academics.md) | [People](./people.md) | [Projects](./projects.md) | [Research](./research.md)
 
 The courses domain models the controlled course catalog and academic-year
-offerings. It depends on [Academics](./academics.md) for years and on
-[People](./people.md) for staff usernames.
+offerings. It depends on [Academics](./academics.md) for years and optional
+department metadata, and on [People](./people.md) for staff usernames.
 
 ## Quick Read
 
@@ -36,6 +36,7 @@ flowchart TD
   CourseOfferingIdSchema["CourseOfferingIdSchema"]
   CourseOfferingSchema["CourseOfferingSchema"]
   AcademicYearSchema["AcademicYearSchema"]
+  AcademicDepartmentCodeSchema["AcademicDepartmentCodeSchema"]
   AcademicUsernameSchema["AcademicUsernameSchema"]
   ProjectCourseSchema["ProjectCourseSchema"]
   ProjectCourseOfferingSchema["ProjectCourseOfferingSchema"]
@@ -45,6 +46,8 @@ flowchart TD
   CourseIdSchema --> CourseSchema
   AcademicUsernameSchema --> CourseStaffSchema
   AcademicYearSchema --> CourseOfferingSchema
+  AcademicDepartmentCodeSchema --> CourseSchema
+  AcademicDepartmentCodeSchema --> CourseOfferingSchema
   CourseIdSchema --> CourseOfferingSchema
   CourseStaffSchema --> CourseOfferingSchema
   CourseOfferingIdSchema --> CourseOfferingSchema
@@ -60,7 +63,7 @@ flowchart TD
   classDef core fill:#0f172a,color:#ffffff,stroke:#0f172a
   classDef external fill:#f8fafc,color:#0f172a,stroke:#64748b
   class CourseCodes,CourseCodeSchema,CourseIdSchema,CourseSchema,CourseStaffSchema,CourseOfferingIdSchema,CourseOfferingSchema core
-  class AcademicYearSchema,AcademicUsernameSchema,ProjectCourseSchema,ProjectCourseOfferingSchema external
+  class AcademicYearSchema,AcademicDepartmentCodeSchema,AcademicUsernameSchema,ProjectCourseSchema,ProjectCourseOfferingSchema external
 ```
 
 ## Schemas
@@ -87,11 +90,14 @@ Represents a course catalog entry:
 - `codes`: one or more course codes.
 - `title`: non-empty string.
 - `credits`: exactly `1`, `2`, `3`, or `6`.
+- `departments`: department metadata for one or more owning or offering
+  departments. Faculty is inferred through the department catalogue.
 
 Rules:
 
 - `primaryCode` must be present in `codes`.
 - `codes` cannot contain duplicates.
+- `departments` cannot contain duplicates.
 
 ### CourseStaffSchema
 
@@ -114,6 +120,8 @@ Represents a specific course delivery:
 - `academicYear`: `AcademicYearSchema`.
 - `semester`: `SEM1` or `SEM2`.
 - `staff`: array of `CourseStaffSchema`.
+- `departments`: department metadata for one or more owning or offering
+  departments. Faculty is inferred through the department catalogue.
 
 ## Future Notes
 
@@ -122,3 +130,5 @@ Represents a specific course delivery:
   `courseOffering.id`; see [Projects](./projects.md).
 - Update `course-codes.json` before using a new code in catalog, staff, staff
   teaching, or project data.
+- Use course `departments` as metadata; keep `id` and course codes as the
+  catalog identity.

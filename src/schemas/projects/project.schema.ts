@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { AcademicDepartmentCodeSchema } from '@/schemas/academics/academic-organization.schema';
 import { AcademicYearSchema } from '@/schemas/academics/academic-year.schema';
 import { CourseCodeSchema } from '@/schemas/courses/course-code.schema';
 import { CourseOfferingIdSchema } from '@/schemas/courses/course-offering.schema';
@@ -119,6 +120,13 @@ export const ProjectCourseSchema = z.object({
   title: z.string().trim().min(1),
   academicYear: AcademicYearSchema.optional(),
   semester: z.enum(['SEM1', 'SEM2']).optional(),
+  departments: z
+    .array(AcademicDepartmentCodeSchema)
+    .default([])
+    .refine(
+      (departments) => new Set(departments).size === departments.length,
+      'departments must not contain duplicates'
+    ),
 });
 
 export type ProjectCourse = z.infer<typeof ProjectCourseSchema>;
@@ -144,6 +152,13 @@ export const ProjectSchema = z
     status: ProjectStatusSchema,
     categories: z.array(z.string().trim().min(1)).min(1),
     tags: z.array(z.string().trim().min(1)).default([]),
+    departments: z
+      .array(AcademicDepartmentCodeSchema)
+      .default([])
+      .refine(
+        (departments) => new Set(departments).size === departments.length,
+        'departments must not contain duplicates'
+      ),
     academicYear: AcademicYearSchema.optional(),
     course: ProjectCourseSchema.optional(),
     courseOffering: ProjectCourseOfferingSchema.optional(),

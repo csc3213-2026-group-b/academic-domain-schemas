@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+import {
+  AcademicDepartmentCodeSchema,
+  AcademicUnitCodeSchema,
+} from '@/schemas/academics/academic-organization.schema';
 import { CourseCodeSchema } from '@/schemas/courses/course-code.schema';
 import { PersonSchema } from '@/schemas/people/person.schema';
 import { SocialLinksSchema } from '@/schemas/people/social-links.schema';
@@ -11,6 +15,8 @@ import { PublicationSchema } from '@/schemas/research/research-publication.schem
 export const AcademicTeachingStaffSchema = PersonSchema.extend({
   staffType: z.literal('ACADEMIC_TEACHING'),
   academicRank: AcademicRankSchema,
+  department: AcademicDepartmentCodeSchema.optional(),
+  unit: AcademicUnitCodeSchema.optional(),
   qualifications: z
     .array(
       z.object({

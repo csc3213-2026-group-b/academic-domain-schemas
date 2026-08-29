@@ -14,6 +14,7 @@ const baseProject = {
   status: 'ACTIVE' as const,
   categories: ['department-systems', 'student-services'],
   tags: ['Next.js', 'Workflow'],
+  departments: ['STATISTICS_AND_COMPUTER_SCIENCE'],
   academicYear: '2025/2026',
   course: {
     courseId: 'software-engineering-project',
@@ -22,6 +23,7 @@ const baseProject = {
     title: 'Software Systems Design Project',
     academicYear: '2025/2026',
     semester: 'SEM2' as const,
+    departments: ['STATISTICS_AND_COMPUTER_SCIENCE', 'MATHEMATICS'],
   },
   courseOffering: {
     id: 'csc3213-2025-2026-sem2',
@@ -87,6 +89,24 @@ describe('ProjectSchema', () => {
         },
       })
     ).not.toThrow();
+  });
+
+  it('accepts a project shared by multiple departments', () => {
+    expect(() =>
+      ProjectSchema.parse({
+        ...baseProject,
+        departments: ['STATISTICS_AND_COMPUTER_SCIENCE', 'MATHEMATICS'],
+      })
+    ).not.toThrow();
+  });
+
+  it('rejects duplicate project departments', () => {
+    expect(() =>
+      ProjectSchema.parse({
+        ...baseProject,
+        departments: ['CHEMISTRY', 'CHEMISTRY'],
+      })
+    ).toThrow();
   });
 
   it('requires course offering metadata for course projects', () => {

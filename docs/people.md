@@ -39,6 +39,8 @@ flowchart TD
   PersonSchema["PersonSchema"]
   AcademicUsernameSchema["AcademicUsernameSchema"]
   SNumberSchema["SNumberSchema"]
+  AcademicDepartmentCodeSchema["AcademicDepartmentCodeSchema"]
+  AcademicUnitCodeSchema["AcademicUnitCodeSchema"]
   SocialLinksSchema["SocialLinksSchema"]
   PeopleSearchEntrySchema["PeopleSearchEntrySchema"]
   StudentSchema["StudentSchema"]
@@ -61,6 +63,16 @@ flowchart TD
   PersonSchema --> AcademicSupportStaffSchema
   PersonSchema --> NonAcademicStaffSchema
   SNumberSchema --> StudentSchema
+  AcademicSubjectSelectionSchema["AcademicSubjectSelectionSchema"]
+  HonoursProgrammeCodeSchema["HonoursProgrammeCodeSchema"]
+  AcademicSubjectSelectionSchema --> StudentSchema
+  HonoursProgrammeCodeSchema --> StudentSchema
+  AcademicDepartmentCodeSchema --> AcademicTeachingStaffSchema
+  AcademicDepartmentCodeSchema --> AcademicSupportStaffSchema
+  AcademicDepartmentCodeSchema --> NonAcademicStaffSchema
+  AcademicUnitCodeSchema --> AcademicTeachingStaffSchema
+  AcademicUnitCodeSchema --> AcademicSupportStaffSchema
+  AcademicUnitCodeSchema --> NonAcademicStaffSchema
   SocialLinksSchema --> StudentSchema
   SocialLinksSchema --> AcademicTeachingStaffSchema
   AcademicRankSchema --> AcademicTeachingStaffSchema
@@ -88,7 +100,7 @@ flowchart TD
   classDef people fill:#0f172a,color:#ffffff,stroke:#0f172a
   classDef external fill:#f8fafc,color:#0f172a,stroke:#64748b
   class PersonSchema,AcademicUsernameSchema,SNumberSchema,SocialLinksSchema,PeopleSearchEntrySchema,StudentSchema,StaffSchema,AcademicTeachingStaffSchema,AcademicSupportStaffSchema,NonAcademicStaffSchema,AcademicRankSchema,AcademicSupportPositionSchema,NonAcademicPositionSchema people
-  class PublicationSchema,ResearchSchema,ConferenceSchema,CourseCodeSchema,ProjectPersonSchema,CourseStaffSchema external
+  class PublicationSchema,ResearchSchema,ConferenceSchema,CourseCodeSchema,ProjectPersonSchema,CourseStaffSchema,AcademicDepartmentCodeSchema,AcademicUnitCodeSchema,AcademicSubjectSelectionSchema,HonoursProgrammeCodeSchema external
 ```
 
 ## Shared Identity
@@ -173,6 +185,11 @@ Extends `PersonSchema` with:
 - `studentType`: `UNDERGRADUATE` or `POSTGRADUATE`.
 - optional undergraduate fields: `studentTrack`, `level`.
 - optional postgraduate fields: `postgraduateProgramme`, `slqfLevel`.
+- optional academic fields: `subjects` and `honoursProgramme`. When provided,
+  `subjects` must contain 2-3 unique selectable subject codes.
+  Students do not carry a single department because general subject choices can
+  span multiple departments, and honours programme ownership is defined by the
+  department catalogue.
 - `status`: `CURRENT` or `ALUMNI`.
 - optional profile data: personal email, research interests, publications,
   positions, and social links.
@@ -202,20 +219,22 @@ Discriminated union by `staffType`:
 
 ### AcademicTeachingStaffSchema
 
-Extends `PersonSchema` and requires `academicRank`. It can also include
-qualifications, office details, awards, website, research interests, ongoing
-research, publications, key publications, conferences, teaching course codes,
-CV URL, and social links.
+Extends `PersonSchema` and requires `academicRank`. It can also include a
+department or academic unit, qualifications, office details, awards, website,
+research interests, ongoing research, publications, key publications,
+conferences, teaching course codes, CV URL, and social links.
 
 ### AcademicSupportStaffSchema
 
 Extends `PersonSchema` and requires `designation` from
-`AcademicSupportPositionSchema`.
+`AcademicSupportPositionSchema`. It can optionally reference a department or
+academic unit.
 
 ### NonAcademicStaffSchema
 
 Extends `PersonSchema` and requires `designation` from
-`NonAcademicPositionSchema`.
+`NonAcademicPositionSchema`. It can optionally reference a department or
+academic unit.
 
 ## Future Notes
 

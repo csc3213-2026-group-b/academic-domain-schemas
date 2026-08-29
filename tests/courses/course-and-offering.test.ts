@@ -22,6 +22,16 @@ describe('CourseSchema', () => {
       CourseSchema.parse({
         ...validCourse,
         codes: ['CSC3213', 'CSC3112'],
+        departments: ['STATISTICS_AND_COMPUTER_SCIENCE'],
+      })
+    ).not.toThrow();
+  });
+
+  it('accepts a course offered by multiple departments', () => {
+    expect(() =>
+      CourseSchema.parse({
+        ...validCourse,
+        departments: ['STATISTICS_AND_COMPUTER_SCIENCE', 'MATHEMATICS'],
       })
     ).not.toThrow();
   });
@@ -59,6 +69,15 @@ describe('CourseSchema', () => {
       CourseSchema.parse({
         ...validCourse,
         codes: ['CSC3213', 'CSC3213'],
+      })
+    ).toThrow();
+  });
+
+  it('rejects duplicate course departments', () => {
+    expect(() =>
+      CourseSchema.parse({
+        ...validCourse,
+        departments: ['MATHEMATICS', 'MATHEMATICS'],
       })
     ).toThrow();
   });
@@ -134,8 +153,18 @@ describe('CourseOfferingSchema', () => {
       CourseOfferingSchema.parse({
         ...validOffering,
         staff: [{ staff: 'jdoe', role: 'LECTURER' }],
+        departments: ['STATISTICS_AND_COMPUTER_SCIENCE', 'MATHEMATICS'],
       })
     ).not.toThrow();
+  });
+
+  it('rejects duplicate offering departments', () => {
+    expect(() =>
+      CourseOfferingSchema.parse({
+        ...validOffering,
+        departments: ['PHYSICS', 'PHYSICS'],
+      })
+    ).toThrow();
   });
 
   it('rejects missing course id', () => {

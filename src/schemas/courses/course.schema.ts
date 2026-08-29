@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { AcademicDepartmentCodeSchema } from '@/schemas/academics/academic-organization.schema';
 import { CourseCodeSchema } from '@/schemas/courses/course-code.schema';
 
 export const CourseIdSchema = z
@@ -17,6 +18,7 @@ export const CourseSchema = z
     codes: z.array(CourseCodeSchema).min(1),
     title: z.string().trim().min(1),
     credits: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(6)]),
+    departments: z.array(AcademicDepartmentCodeSchema).default([]),
   })
   .refine(
     (course) => course.codes.includes(course.primaryCode),
@@ -25,6 +27,10 @@ export const CourseSchema = z
   .refine(
     (course) => new Set(course.codes).size === course.codes.length,
     'codes must not contain duplicates'
+  )
+  .refine(
+    (course) => new Set(course.departments).size === course.departments.length,
+    'departments must not contain duplicates'
   );
 
 export type Course = z.infer<typeof CourseSchema>;
