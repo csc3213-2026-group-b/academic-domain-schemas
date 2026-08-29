@@ -1,5 +1,11 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 4.3.0
+
+### Minor Changes
+
+- f58f8b0: Add Faculty of Science organization catalogue schemas, hardcoded department ownership for honours programmes and subjects, and faculty-aware department metadata across academic, people, course, and project schemas.
+
 ## 4.2.0
 
 ### Minor Changes
