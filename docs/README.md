@@ -14,6 +14,7 @@ owns, how schemas depend on each other, and where to make the next change.
 | Change students, staff, search, or social links             | [People](./people.md)         |
 | Change project registry records                             | [Projects](./projects.md)     |
 | Change publications, conferences, or research entries       | [Research](./research.md)     |
+| Prepare a versioned package release                         | [Release](./release.md)       |
 
 ## Schema Landscape
 
@@ -83,6 +84,8 @@ bun test --coverage
 bun run build
 bun run knip
 ```
+
+See [Release And Publishing](./release.md) before publishing a package version.
 
 ## Documentation Standard
 

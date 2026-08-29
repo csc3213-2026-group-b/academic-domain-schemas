@@ -45,6 +45,21 @@ bun test
 bun run build
 ```
 
+Common maintenance scripts:
+
+- `bun run typecheck`: type-check package source.
+- `bun run typecheck:test`: type-check tests.
+- `bun run lint`: run ESLint.
+- `bun run format:check`: check formatting.
+- `bun run build`: build the package output.
+- `bun run changeset`: add release notes for the next version.
+- `bun run version-packages`: apply pending Changesets to `package.json` and
+  `CHANGELOG.md`.
+
+For major breaking releases, add a `major` Changeset, run the full validation
+suite, version the package, then publish with Changesets. See
+[Release And Publishing](https://github.com/csc3213-2026-group-b/academic-domain-schemas/blob/main/docs/release.md).
+
 ## Documentation
 
 Schema maps, Mermaid diagrams, and domain notes live in
