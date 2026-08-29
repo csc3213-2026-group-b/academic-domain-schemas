@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+import {
+  AcademicSubjectSelectionSchema,
+  HonoursProgrammeCodeSchema,
+} from '@/schemas/academics/academic-organization.schema';
 import { SNumberSchema } from '@/schemas/people/identifiers/s-number.schema';
 import { PersonSchema } from '@/schemas/people/person.schema';
 import { SocialLinksSchema } from '@/schemas/people/social-links.schema';
@@ -83,6 +87,8 @@ export const StudentSchema = PersonSchema.extend({
   level: StudentLevelSchema.optional(),
   postgraduateProgramme: PostgraduateProgrammeSchema.optional(),
   slqfLevel: SlqfLevelSchema.optional(),
+  subjects: AcademicSubjectSelectionSchema.optional(),
+  honoursProgramme: HonoursProgrammeCodeSchema.optional(),
   status: StudentStatusSchema,
   personalEmail: z.email().optional(),
   researchInterests: z.array(z.string()).optional(),

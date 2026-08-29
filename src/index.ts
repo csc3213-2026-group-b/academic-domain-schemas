@@ -1,4 +1,5 @@
 // Academics
+export * from '@/schemas/academics/academic-organization.schema';
 export * from '@/schemas/academics/academic-period.schema';
 export * from '@/schemas/academics/academic-program.schema';
 export * from '@/schemas/academics/academic-year.schema';
