@@ -8,16 +8,15 @@ department metadata, and on [People](./people.md) for staff usernames.
 
 ## Quick Read
 
-| Schema                 | Purpose                           | Key Rule                                                |
-| ---------------------- | --------------------------------- | ------------------------------------------------------- |
-| `CourseCodeSchema`     | Controlled course code vocabulary | Values come from `course-codes.json`.                   |
-| `CourseSchema`         | Catalog course identity           | `primaryCode` must be included in `codes`.              |
-| `CourseStaffSchema`    | Course staff assignment           | Staff identity is an academic username.                 |
-| `CourseOfferingSchema` | Year and semester delivery        | Connects course ID, academic year, semester, and staff. |
+| Schema                 | Purpose                    | Key Rule                                                |
+| ---------------------- | -------------------------- | ------------------------------------------------------- |
+| `CourseCodeSchema`     | Course code format         | Uppercase subject prefix followed by four digits.       |
+| `CourseSchema`         | Catalog course identity    | `primaryCode` must be included in `codes`.              |
+| `CourseStaffSchema`    | Course staff assignment    | Staff identity is an academic username.                 |
+| `CourseOfferingSchema` | Year and semester delivery | Connects course ID, academic year, semester, and staff. |
 
 ## Source Files
 
-- [`course-codes.json`](../src/schemas/courses/course-codes.json)
 - [`course-code.schema.ts`](../src/schemas/courses/course-code.schema.ts)
 - [`course.schema.ts`](../src/schemas/courses/course.schema.ts)
 - [`course-staff.schema.ts`](../src/schemas/courses/course-staff.schema.ts)
@@ -28,7 +27,6 @@ department metadata, and on [People](./people.md) for staff usernames.
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#0f172a", "primaryBorderColor": "#64748b", "lineColor": "#475569"}}}%%
 flowchart TD
-  CourseCodes["course-codes.json"]
   CourseCodeSchema["CourseCodeSchema"]
   CourseIdSchema["CourseIdSchema"]
   CourseSchema["CourseSchema"]
@@ -41,7 +39,6 @@ flowchart TD
   ProjectCourseSchema["ProjectCourseSchema"]
   ProjectCourseOfferingSchema["ProjectCourseOfferingSchema"]
 
-  CourseCodes --> CourseCodeSchema
   CourseCodeSchema --> CourseSchema
   CourseIdSchema --> CourseSchema
   AcademicUsernameSchema --> CourseStaffSchema
@@ -62,7 +59,7 @@ flowchart TD
 
   classDef core fill:#0f172a,color:#ffffff,stroke:#0f172a
   classDef external fill:#f8fafc,color:#0f172a,stroke:#64748b
-  class CourseCodes,CourseCodeSchema,CourseIdSchema,CourseSchema,CourseStaffSchema,CourseOfferingIdSchema,CourseOfferingSchema core
+  class CourseCodeSchema,CourseIdSchema,CourseSchema,CourseStaffSchema,CourseOfferingIdSchema,CourseOfferingSchema core
   class AcademicYearSchema,AcademicDepartmentCodeSchema,AcademicUsernameSchema,ProjectCourseSchema,ProjectCourseOfferingSchema external
 ```
 
@@ -70,8 +67,16 @@ flowchart TD
 
 ### CourseCodeSchema
 
-Backed by [`course-codes.json`](../src/schemas/courses/course-codes.json).
-Only codes in that JSON list are valid.
+Format-based course code:
+
+- trims surrounding whitespace,
+- normalizes letters to uppercase,
+- requires a two-to-four-letter subject prefix,
+- requires four trailing digits.
+
+The approved course catalog is academic data, not schema package vocabulary.
+Use published academic data when a workflow must reject a course code that is
+format-valid but not currently offered.
 
 ### CourseIdSchema
 
@@ -128,7 +133,7 @@ Represents a specific course delivery:
 - Treat courses as catalog identity and offerings as yearly delivery instances.
 - Course project records should point at offerings through
   `courseOffering.id`; see [Projects](./projects.md).
-- Update `course-codes.json` before using a new code in catalog, staff, staff
-  teaching, or project data.
+- Validate current course membership against published academic data when a
+  workflow requires known approved courses.
 - Use course `departments` as metadata; keep `id` and course codes as the
   catalog identity.

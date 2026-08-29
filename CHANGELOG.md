@@ -1,5 +1,18 @@
 # @csc3213-2026-group-b/academic-domain-schemas
 
+## 5.1.0
+
+### Minor Changes
+
+- Change `CourseCodeSchema` from a hardcoded course-code enum to a format-based
+  string schema. The schema now validates the code shape and normalization, while
+  approved course catalog membership should be checked against published academic
+  data.
+
+  Note: `5.0.1` was an accidental release. It includes breaking Faculty of
+  Science subject validation changes that were intended to be published through a
+  documented minor release.
+
 ## 5.0.0
 
 ### Major Changes

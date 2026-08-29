@@ -49,9 +49,32 @@ describe('CourseSchema', () => {
     expect(() => CourseSchema.parse({ ...validCourse, credits: 4 })).toThrow();
   });
 
-  it('rejects an unknown course code', () => {
+  it('accepts a format-valid course code outside the catalog', () => {
     expect(() =>
-      CourseSchema.parse({ ...validCourse, codes: ['XYZ9999'] })
+      CourseSchema.parse({
+        ...validCourse,
+        primaryCode: 'XYZ9999',
+        codes: ['XYZ9999'],
+      })
+    ).not.toThrow();
+  });
+
+  it('normalizes course codes before validation', () => {
+    expect(
+      CourseSchema.parse({
+        ...validCourse,
+        primaryCode: ' csc3213 ',
+        codes: [' csc3213 '],
+      })
+    ).toMatchObject({
+      primaryCode: 'CSC3213',
+      codes: ['CSC3213'],
+    });
+  });
+
+  it('rejects an invalid course code format', () => {
+    expect(() =>
+      CourseSchema.parse({ ...validCourse, codes: ['CSC-3213'] })
     ).toThrow();
   });
 
