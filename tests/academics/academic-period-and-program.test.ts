@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import {
   AcademicDepartmentSchema,
+  AcademicSubjectCodeSchema,
   AcademicSubjectDepartmentMap,
   AcademicSubjectSchema,
   AcademicUnitSchema,
@@ -115,6 +116,18 @@ describe('ProgramSchema', () => {
     ).not.toThrow();
   });
 
+  it('accepts Applied Sciences only with Applied Sciences honours', () => {
+    expect(() =>
+      ProgramSchema.parse({
+        code: 'HONOURS',
+        title: 'BSc(Hons)',
+        durationYears: 4,
+        subjects: ['APPLIED_SCIENCES', 'CHEMISTRY'],
+        honoursProgramme: 'APPLIED_SCIENCES',
+      })
+    ).not.toThrow();
+  });
+
   it('rejects GENERAL with wrong title', () => {
     expect(() =>
       ProgramSchema.parse({
@@ -168,6 +181,29 @@ describe('ProgramSchema', () => {
         subjects: ['COMPUTER_SCIENCE', 'STATISTICS'],
       })
     ).toThrow();
+  });
+
+  it('rejects Applied Sciences under another honours programme', () => {
+    expect(() =>
+      ProgramSchema.parse({
+        code: 'HONOURS',
+        title: 'BSc(Hons)',
+        durationYears: 4,
+        subjects: ['APPLIED_SCIENCES', 'COMPUTER_SCIENCE'],
+        honoursProgramme: 'COMPUTER_SCIENCE',
+      })
+    ).toThrow('APPLIED_SCIENCES subject is only available');
+  });
+
+  it('rejects special degree subjects under GENERAL', () => {
+    expect(() =>
+      ProgramSchema.parse({
+        code: 'GENERAL',
+        title: 'BSc',
+        durationYears: 3,
+        subjects: ['ENVIRONMENTAL_SCIENCE', 'CHEMISTRY'],
+      })
+    ).toThrow('GENERAL subjects cannot include special degree subjects');
   });
 
   it('rejects SOR without Statistics', () => {
@@ -253,6 +289,9 @@ describe('Academic organization schemas', () => {
     expect(() =>
       z.array(AcademicSubjectSchema).parse(ScienceAcademicSubjects)
     ).not.toThrow();
+    expect(
+      new Set(ScienceAcademicSubjects.map((subject) => subject.code))
+    ).toEqual(new Set(AcademicSubjectCodeSchema.options));
   });
 
   it('accepts science departments', () => {

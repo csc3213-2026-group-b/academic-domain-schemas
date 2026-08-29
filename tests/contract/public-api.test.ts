@@ -42,6 +42,7 @@ const expectedRuntimeExports = [
   'PostgraduateProgrammeDefinitionListSchema',
   'PostgraduateProgrammeDefinitionSchema',
   'PostgraduateProgrammeSchema',
+  'PrincipalSubjectArea1000LevelCodes',
   'ProgramSchema',
   'ProjectCourseOfferingSchema',
   'ProjectCourseSchema',
@@ -60,6 +61,7 @@ const expectedRuntimeExports = [
   'SlqfLevelSchema',
   'SocialIconSchema',
   'SocialLinksSchema',
+  'SpecialDegreeSubjectCodes',
   'StaffSchema',
   'ScienceAcademicDepartments',
   'ScienceAcademicSubjects',
@@ -74,6 +76,7 @@ const expectedRuntimeExports = [
   'StudentStreamSchema',
   'StudentTrackSchema',
   'StudentTypeSchema',
+  'UpperLevelSubjectCodes',
   'detectKnownSocialUrl',
   'normalizeKnownSocialUrl',
 ] as const satisfies readonly (keyof typeof publicApi)[];

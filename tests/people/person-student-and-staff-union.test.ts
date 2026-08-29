@@ -211,6 +211,48 @@ describe('StudentSchema', () => {
     ).toThrow();
   });
 
+  it('accepts Applied Sciences subjects for Applied Sciences honours students', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        honoursProgramme: 'APPLIED_SCIENCES',
+        subjects: ['APPLIED_SCIENCES', 'CHEMISTRY'],
+      })
+    ).not.toThrow();
+  });
+
+  it('rejects Applied Sciences subjects for other honours programmes', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        honoursProgramme: 'COMPUTER_SCIENCE',
+        subjects: ['APPLIED_SCIENCES', 'COMPUTER_SCIENCE'],
+      })
+    ).toThrow('APPLIED_SCIENCES subject is only available');
+  });
+
+  it('rejects special degree subjects for general-track students', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        studentTrack: 'GENERAL',
+        honoursProgramme: undefined,
+        subjects: ['DATA_SCIENCE', 'STATISTICS'],
+      })
+    ).toThrow('Special degree subjects require an honours student track');
+  });
+
+  it('rejects special degree subjects before 3000 level', () => {
+    expect(() =>
+      StudentSchema.parse({
+        ...validStudent,
+        level: '2000',
+        honoursProgramme: 'DATA_SCIENCE',
+        subjects: ['DATA_SCIENCE', 'STATISTICS'],
+      })
+    ).toThrow('Special degree subjects are only available at 3000/4000 levels');
+  });
+
   it('validates trusted undergraduate placement data', () => {
     expect(() =>
       StudentPlacementListSchema.parse([

@@ -5,6 +5,7 @@ import {
   AcademicSubjectCodeSchema,
   AcademicSubjectSelectionSchema,
   HonoursProgrammeCodeSchema,
+  SpecialDegreeSubjectCodes,
 } from '@/schemas/academics/academic-organization.schema';
 
 export const HonoursStreamSchema = HonoursProgrammeCodeSchema;
@@ -15,6 +16,17 @@ const SorSubjectCodes: AcademicSubjectCode[] = [
   Subject.MATHEMATICS,
   Subject.COMPUTER_SCIENCE,
 ];
+const SpecialDegreeSubjects = new Set<AcademicSubjectCode>(
+  SpecialDegreeSubjectCodes
+);
+
+function includesSpecialDegreeSubject(subjects: AcademicSubjectCode[]) {
+  return subjects.some((subject) => SpecialDegreeSubjects.has(subject));
+}
+
+function includesAppliedSciencesSubject(subjects: AcademicSubjectCode[]) {
+  return subjects.includes(Subject.APPLIED_SCIENCES);
+}
 
 const SorSubjectSelectionSchema = AcademicSubjectSelectionSchema.refine(
   (subjects) =>
@@ -26,21 +38,39 @@ const SorSubjectSelectionSchema = AcademicSubjectSelectionSchema.refine(
   'SOR subjects can only include STATISTICS, MATHEMATICS, and COMPUTER_SCIENCE'
 );
 
+const GeneralSubjectSelectionSchema = AcademicSubjectSelectionSchema.refine(
+  (subjects) => !includesSpecialDegreeSubject(subjects),
+  'GENERAL subjects cannot include special degree subjects'
+);
+
+const HonoursSubjectSelectionSchema = AcademicSubjectSelectionSchema;
+
 export const ProgramSchema = z.discriminatedUnion('code', [
   z.object({
     code: z.literal('GENERAL'),
     title: z.literal('BSc'),
     durationYears: z.literal(3),
-    subjects: AcademicSubjectSelectionSchema,
+    subjects: GeneralSubjectSelectionSchema,
   }),
 
-  z.object({
-    code: z.literal('HONOURS'),
-    title: z.literal('BSc(Hons)'),
-    durationYears: z.literal(4),
-    subjects: AcademicSubjectSelectionSchema,
-    honoursProgramme: HonoursProgrammeCodeSchema,
-  }),
+  z
+    .object({
+      code: z.literal('HONOURS'),
+      title: z.literal('BSc(Hons)'),
+      durationYears: z.literal(4),
+      subjects: HonoursSubjectSelectionSchema,
+      honoursProgramme: HonoursProgrammeCodeSchema,
+    })
+    .refine(
+      (programme) =>
+        programme.honoursProgramme === 'APPLIED_SCIENCES' ||
+        !includesAppliedSciencesSubject(programme.subjects),
+      {
+        message:
+          'APPLIED_SCIENCES subject is only available for Applied Sciences honours',
+        path: ['subjects'],
+      }
+    ),
 
   z.object({
     code: z.literal('APPLIED_SCIENCES'),

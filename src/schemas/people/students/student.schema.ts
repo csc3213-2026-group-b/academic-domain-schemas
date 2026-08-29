@@ -1,8 +1,11 @@
 import { z } from 'zod';
 
 import {
+  type AcademicSubjectCode,
+  AcademicSubjectCodeSchema,
   AcademicSubjectSelectionSchema,
   HonoursProgrammeCodeSchema,
+  SpecialDegreeSubjectCodes,
 } from '@/schemas/academics/academic-organization.schema';
 import { SNumberSchema } from '@/schemas/people/identifiers/s-number.schema';
 import { PersonSchema } from '@/schemas/people/person.schema';
@@ -80,6 +83,11 @@ export const StudentStreamDefinitionListSchema = z.array(
   StudentStreamDefinitionSchema
 );
 
+const Subject = AcademicSubjectCodeSchema.enum;
+const SpecialDegreeSubjects = new Set<AcademicSubjectCode>(
+  SpecialDegreeSubjectCodes
+);
+
 export const StudentSchema = PersonSchema.extend({
   registrationNo: SNumberSchema,
   studentType: StudentTypeSchema,
@@ -104,6 +112,43 @@ export const StudentSchema = PersonSchema.extend({
     )
     .optional(),
   socialLinks: SocialLinksSchema.optional(),
+}).superRefine((student, ctx) => {
+  const subjects = student.subjects ?? [];
+  const hasSpecialDegreeSubject = subjects.some((subject) =>
+    SpecialDegreeSubjects.has(subject)
+  );
+
+  if (
+    subjects.includes(Subject.APPLIED_SCIENCES) &&
+    student.honoursProgramme !== 'APPLIED_SCIENCES'
+  ) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['subjects'],
+      message:
+        'APPLIED_SCIENCES subject is only available for Applied Sciences honours',
+    });
+  }
+
+  if (hasSpecialDegreeSubject && student.studentTrack !== 'HONOURS') {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['subjects'],
+      message: 'Special degree subjects require an honours student track',
+    });
+  }
+
+  if (
+    hasSpecialDegreeSubject &&
+    student.level !== '3000' &&
+    student.level !== '4000'
+  ) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['level'],
+      message: 'Special degree subjects are only available at 3000/4000 levels',
+    });
+  }
 });
 
 export type StudentType = z.infer<typeof StudentTypeSchema>;
